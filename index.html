@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WASH FIT - OPS</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/"></script>
+
+  <!-- Google Fonts for Premium Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Leaflet Map CSS & JS CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Tailwind theme configuration -->
+  <script src="js/config/tailwind-config.js"></script>
+
+  <!-- Vue.js 3 Global Build CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-white text-paho-gray-dark font-sans antialiased min-h-screen">
+
+  <div id="app" v-cloak class="flex flex-col min-h-screen relative overflow-x-auto">
+
+    <!-- NOTIFICACIONES / TOAST MODAL -->
+    <div v-if="toast.show" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-4 border-2 transition-all duration-300 transform translate-y-0 bg-white no-print"
+         :class="toast.type === 'success' ? 'text-paho-dark-blue border-paho-blue' : 'text-red-700 border-red-500'">
+      <span class="font-bold text-sm tracking-tight">{{ toast.message }}</span>
+      <button @click="toast.show = false" class="text-paho-gray-medium hover:text-paho-gray-dark">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- GLOBAL TOP BANNER (OPS / WASH FIT con imagen de fondo e isotipo oficial) -->
+    <header class="h-24 px-8 flex items-center relative overflow-hidden z-30 no-print flex-shrink-0 bg-cover bg-center shadow-md"
+            style="background-image: url('img/barra1.png')">
+
+      <!-- LOGO INSTITUCIONAL OPS BLANCO (IZQUIERDA) -->
+      <div class="flex items-center h-14 z-10">
+        <img src="img/paho-logo-blanco.png"
+             alt="OPS / OMS - Organización Panamericana de la Salud"
+             class="h-full w-auto object-contain">
+      </div>
+
+      <!-- TÍTULO PRINCIPAL CENTRADO EN TODO EL ENCABEZADO -->
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-center">
+        <h1 class="text-3xl md:text-6xl font-black tracking-tight text-white drop-shadow-sm">
+          WASH FIT
+        </h1>
+      </div>
+
+    </header>
+
+    <!-- MOBILE HEADER -->
+    <header class="lg:hidden bg-paho-very-dark-blue text-white px-6 py-4 flex items-center justify-between z-30 no-print">
+      <div class="flex items-center gap-3">
+        <span class="text-sm font-extrabold tracking-tight">PRIMER NIVEL DE ATENCIÓN</span>
+      </div>
+      <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 hover:bg-paho-dark-blue transition-colors focus:outline-none">
+        <i :data-lucide="mobileMenuOpen ? 'x' : 'menu'" class="w-6 h-6 text-white"></i>
+      </button>
+    </header>
+
+    <!-- CONTAINER FOR SIDEBAR AND MAIN CONTENT -->
+    <div class="flex-1 flex flex-col lg:flex-row relative">
+
+      <!-- SIDEBAR NAVIGATION -->
+      <aside :class="['bg-paho-card text-paho-gray-dark flex-shrink-0 flex flex-col justify-between z-40 fixed lg:static inset-y-0 left-0 transform transition-all duration-300 ease-in-out border-r border-paho-grid no-print overflow-hidden', 
+                      sidebarCollapsed ? 'w-20' : 'w-80', 
+                      mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0']">
+        
+        <div>
+          <!-- Cabecera del menú lateral -->
+          <div class="px-4 h-20 border-b border-paho-grid bg-white flex items-center transition-all duration-300" :class="sidebarCollapsed ? 'justify-center' : 'justify-between'">
+            <div class="flex items-center" :class="sidebarCollapsed ? 'justify-center' : 'overflow-hidden'">
+              <div :class="['transition-all duration-300 overflow-hidden whitespace-nowrap', sidebarCollapsed ? 'max-w-0 opacity-0' : 'max-w-xs opacity-100']">
+                <h1 class="text-[12px] font-extrabold tracking-widest text-paho-orange uppercase">Primer Nivel de Atención</h1>
+              </div>
+            </div>
+            
+            <!-- Botón Contraer / Expandir -->
+            <button @click="sidebarCollapsed = !sidebarCollapsed" 
+                    class="hidden lg:flex items-center justify-center w-8 h-8 rounded transition-colors" 
+                    :class="sidebarCollapsed ? 'bg-paho-dark-blue text-white hover:bg-paho-very-dark-blue' : 'text-paho-gray-dark hover:bg-paho-gray-light'" 
+                    title="Contraer / Expandir">
+              <div class="transition-transform duration-300 transform" :class="sidebarCollapsed ? 'rotate-180' : ''">
+                <i data-lucide="chevron-left" class="w-4 h-4 block"></i>
+              </div>
+            </button>
+          </div>
+
+          <!-- Widget de progreso -->
+          <div :class="['bg-white border border-paho-grid transition-all duration-300 overflow-hidden', sidebarCollapsed ? 'max-h-0 m-0 p-0 opacity-0 border-none' : 'p-6 m-4 max-h-40 opacity-100']">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-xs font-bold text-paho-gray-medium">Progreso de Evaluación</span>
+              <span class="text-xs font-bold text-paho-dark-blue">{{ progressPercentage }}%</span>
+            </div>
+            <div class="w-full bg-paho-gray-light h-2 overflow-hidden">
+              <div class="bg-paho-blue h-2 transition-all duration-500" :style="{ width: progressPercentage + '%' }"></div>
+            </div>
+            <div class="flex justify-between items-center mt-3 text-[11px] text-paho-gray-medium font-semibold">
+              <span>{{ answeredCount }} de {{ indicators.length }} Eval.</span>
+              <span>Brechas: {{ totalGaps }}</span>
+            </div>
+          </div>
+
+          <!-- Enlaces de navegación -->
+          <nav class="py-2 space-y-1 transition-all duration-300" :class="sidebarCollapsed ? 'px-2' : 'px-4'">
+            <button @click="switchView('instructions')" :class="['w-full flex items-center py-3 font-semibold text-xs uppercase tracking-wider transition-all duration-150 border', sidebarCollapsed ? 'justify-center px-0' : 'justify-between px-4', activeView === 'instructions' ? 'bg-paho-dark-blue text-white border-paho-dark-blue' : 'text-paho-gray-dark border-transparent hover:bg-white hover:text-paho-dark-blue']">
+              <div class="flex items-center" :class="sidebarCollapsed ? 'justify-center w-full' : 'gap-3'">
+                <div class="w-6 h-6 flex items-center justify-center flex-shrink-0"><i data-lucide="book-open" class="w-5 h-5"></i></div>
+                <span v-show="!sidebarCollapsed" class="whitespace-nowrap">Instrucciones de Uso</span>
+              </div>
+              <div v-show="!sidebarCollapsed"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></div>
+            </button>
+
+            <button @click="switchView('general')" :class="['w-full flex items-center py-3 font-semibold text-xs uppercase tracking-wider transition-all duration-150 border', sidebarCollapsed ? 'justify-center px-0' : 'justify-between px-4', activeView === 'general' ? 'bg-paho-dark-blue text-white border-paho-dark-blue' : 'text-paho-gray-dark border-transparent hover:bg-white hover:text-paho-dark-blue']">
+              <div class="flex items-center" :class="sidebarCollapsed ? 'justify-center w-full' : 'gap-3'">
+                <div class="w-6 h-6 flex items-center justify-center flex-shrink-0"><i data-lucide="clipboard-list" class="w-5 h-5"></i></div>
+                <span v-show="!sidebarCollapsed" class="whitespace-nowrap">Datos Generales</span>
+              </div>
+              <div v-show="!sidebarCollapsed"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></div>
+            </button>
+
+            <button @click="switchView('assessment')" :class="['w-full flex items-center py-3 font-semibold text-xs uppercase tracking-wider transition-all duration-150 border', sidebarCollapsed ? 'justify-center px-0' : 'justify-between px-4', activeView === 'assessment' ? 'bg-paho-dark-blue text-white border-paho-dark-blue' : 'text-paho-gray-dark border-transparent hover:bg-white hover:text-paho-dark-blue']">
+              <div class="flex items-center" :class="sidebarCollapsed ? 'justify-center w-full' : 'gap-3'">
+                <div class="w-6 h-6 flex items-center justify-center flex-shrink-0"><i data-lucide="check-square" class="w-5 h-5"></i></div>
+                <span v-show="!sidebarCollapsed" class="whitespace-nowrap">Evaluación Situación</span>
+              </div>
+              <span v-show="!sidebarCollapsed" class="px-2 py-0.5 text-[10px] bg-paho-gray-light text-paho-gray-dark font-extrabold flex-shrink-0">{{ answeredCount }}/{{ indicators.length }}</span>
+            </button>
+
+            <button @click="switchView('step3')" :class="['w-full flex items-center py-3 font-semibold text-xs uppercase tracking-wider transition-all duration-150 border', sidebarCollapsed ? 'justify-center px-0' : 'justify-between px-4', activeView === 'step3' ? 'bg-paho-dark-blue text-white border-paho-dark-blue' : 'text-paho-gray-dark border-transparent hover:bg-white hover:text-paho-dark-blue']">
+              <div class="flex items-center" :class="sidebarCollapsed ? 'justify-center w-full' : 'gap-3'">
+                <div class="w-6 h-6 flex items-center justify-center flex-shrink-0"><i data-lucide="alert-octagon" class="w-5 h-5"></i></div>
+                <span v-show="!sidebarCollapsed" class="whitespace-nowrap">Evaluación Riesgo</span>
+              </div>
+              <span v-show="!sidebarCollapsed && totalGaps > 0" class="px-2 py-0.5 text-[10px] bg-red-100 text-red-800 border border-red-200 font-extrabold flex-shrink-0">{{ totalGaps }}</span>
+            </button>
+
+            <button @click="switchView('step4')" :class="['w-full flex items-center py-3 font-semibold text-xs uppercase tracking-wider transition-all duration-150 border', sidebarCollapsed ? 'justify-center px-0' : 'justify-between px-4', activeView === 'step4' ? 'bg-paho-dark-blue text-white border-paho-dark-blue' : 'text-paho-gray-dark border-transparent hover:bg-white hover:text-paho-dark-blue']">
+              <div class="flex items-center" :class="sidebarCollapsed ? 'justify-center w-full' : 'gap-3'">
+                <div class="w-6 h-6 flex items-center justify-center flex-shrink-0"><i data-lucide="shield-alert" class="w-5 h-5"></i></div>
+                <span v-show="!sidebarCollapsed" class="whitespace-nowrap">Plan de Mejora</span>
+              </div>
+              <div v-show="!sidebarCollapsed"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></div>
+            </button>
+
+            <button @click="switchView('step5')" :class="['w-full flex items-center py-3 font-semibold text-xs uppercase tracking-wider transition-all duration-150 border', sidebarCollapsed ? 'justify-center px-0' : 'justify-between px-4', activeView === 'step5' ? 'bg-paho-dark-blue text-white border-paho-dark-blue' : 'text-paho-gray-dark border-transparent hover:bg-white hover:text-paho-dark-blue']">
+              <div class="flex items-center" :class="sidebarCollapsed ? 'justify-center w-full' : 'gap-3'">
+                <div class="w-6 h-6 flex items-center justify-center flex-shrink-0"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
+                <span v-show="!sidebarCollapsed" class="whitespace-nowrap">Monitoreo y Revisión</span>
+              </div>
+              <div v-show="!sidebarCollapsed"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></div>
+            </button>
+
+            <button @click="switchView('dashboard')" :class="['w-full flex items-center py-3 font-semibold text-xs uppercase tracking-wider transition-all duration-150 border', sidebarCollapsed ? 'justify-center px-0' : 'justify-between px-4', activeView === 'dashboard' ? 'bg-paho-dark-blue text-white border-paho-dark-blue' : 'text-paho-gray-dark border-transparent hover:bg-white hover:text-paho-dark-blue']">
+              <div class="flex items-center" :class="sidebarCollapsed ? 'justify-center w-full' : 'gap-3'">
+                <div class="w-6 h-6 flex items-center justify-center flex-shrink-0"><i data-lucide="bar-chart-3" class="w-5 h-5"></i></div>
+                <span v-show="!sidebarCollapsed" class="whitespace-nowrap">Resumen</span>
+              </div>
+              <div v-show="!sidebarCollapsed"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></div>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Acciones del pie del menú -->
+        <div class="p-4 border-t border-paho-grid bg-white space-y-4 flex-shrink-0">
+          <div :class="['flex gap-2 transition-all duration-300', sidebarCollapsed ? 'flex-col items-center' : 'flex-row']">
+            <button @click="exportData" class="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-white hover:bg-paho-card text-paho-dark-blue text-xs font-bold border border-paho-grid transition-colors">
+              <i data-lucide="download" class="w-4 h-4"></i>
+              <span v-show="!sidebarCollapsed">Exportar</span>
+            </button>
+            <label class="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-white hover:bg-paho-card text-paho-dark-blue text-xs font-bold border border-paho-grid cursor-pointer transition-colors text-center">
+              <i data-lucide="upload" class="w-4 h-4"></i>
+              <span v-show="!sidebarCollapsed">Importar</span>
+              <input type="file" @change="importData" class="hidden" accept=".json">
+            </label>
+          </div>
+          <div class="text-[11px] text-paho-gray-medium text-center font-semibold whitespace-nowrap overflow-hidden transition-all duration-300">
+            <span v-if="sidebarCollapsed">v2.0</span>
+            <span v-else>WASH FIT v2.0 • OPS 2026</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT SUITE -->
+      <main class="flex-1 flex flex-col min-h-screen bg-white print-page overflow-auto">
+
+      <!-- TOP NAVIGATION BAR -->
+      <header class="hidden lg:flex items-center justify-between px-10 h-20 border-b border-paho-grid bg-white z-20 no-print flex-shrink-0">
+        <div>
+          <h2 class="text-xl font-extrabold text-paho-very-dark-blue tracking-tight">{{ getViewTitle }}</h2>
+        </div>
+        
+        <div class="flex items-center gap-6">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-paho-blue animate-pulse"></span>
+            <span class="text-xs font-bold text-paho-gray-dark">Cumplimiento Global:</span>
+            <span class="text-sm font-extrabold text-paho-dark-blue">{{ overallCompliance }}%</span>
+          </div>
+          
+          <!-- BOTÓN DE IMPRIMIR REPORTE (SOLO VISIBLE EN MÓDULO RESUMEN) -->
+          <button v-if="activeView === 'dashboard'" 
+                  @click="printReport" 
+                  class="no-print flex items-center gap-2 px-4 py-2 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-extrabold border border-paho-dark-blue transition-all shadow-sm rounded-none cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            <span>Imprimir Reporte</span>
+          </button>
+        </div>
+      </header>
+
+        <!-- PANELS FRAME -->
+        <div class="flex-1 p-6 lg:p-10 space-y-8">
+          
+          <!-- MODULE 0: INSTRUCCIONES DE USO -->
+          <div v-show="activeView === 'instructions'" class="space-y-8">
+            <div class="p-8 bg-paho-dark-blue text-white space-y-4">
+              <span class="px-3 py-1 bg-paho-orange/40 border border-paho-orange/80 text-white text-[10px] font-extrabold tracking-widest uppercase inline-block">
+                Aplicado al Primer Nivel de Atención
+              </span>
+              <h3 class="text-2xl font-extrabold tracking-tight">WASH FIT - Agua, Saneamiento e Higiene en Establecimientos de Salud</h3>
+              <p class="text-sm text-paho-light-blue leading-relaxed text-justify">
+                WASH FIT es una herramienta de mejora continua que permite a los equipos responsables de WASH FIT, evaluar y gestionar los riesgos asociados a los servicios de agua, saneamiento, higiene, gestión de residuos sanitarios y limpieza ambiental en los establecimientos de salud. Su aplicación facilita la elaboración e implementación de planes de mejora orientados a fortalecer la calidad de la atención.
+              </p>
+            </div>
+
+            <!-- Step by Step Grid layout con botones de navegación directa -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div class="bg-paho-card p-6 border border-paho-grid flex flex-col justify-between">
+                <div class="space-y-3">
+                  <div class="w-10 h-10 bg-paho-light-blue/20 text-paho-dark-blue flex items-center justify-center font-bold text-sm">01</div>
+                  <h4 class="text-sm font-bold text-paho-very-dark-blue">Paso 1: Datos Generales</h4>
+                  <p class="text-xs text-paho-gray-dark leading-relaxed text-justify">
+                    Complete los datos del Establecimiento de Salud y la información relacionada al equipo implementador, asignando roles puntuales a cada miembro.
+                  </p>
+                </div>
+                <button @click="switchView('general')" class="mt-4 w-full flex items-center justify-between px-4 py-2.5 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                  <span>Ir a Datos Generales</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <div class="bg-paho-card p-6 border border-paho-grid flex flex-col justify-between">
+                <div class="space-y-3">
+                  <div class="w-10 h-10 bg-paho-light-blue/20 text-paho-dark-blue flex items-center justify-center font-bold text-sm">02</div>
+                  <h4 class="text-sm font-bold text-paho-very-dark-blue">Paso 2: Evaluación de la situación</h4>
+                  <p class="text-xs text-paho-gray-dark leading-relaxed text-justify">
+                    Evalúe los 5 módulos de la herramienta, asignando una calificación de los indicadores de la siguiente manera: 
+                    (0: No cumple) (1: Cumple parcialmente) (2: Cumple)
+                  </p>
+                </div>
+                <button @click="switchView('assessment')" class="mt-4 w-full flex items-center justify-between px-4 py-2.5 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                  <span>Ir a Evaluación Situación</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <div class="bg-paho-card p-6 border border-paho-grid flex flex-col justify-between">
+                <div class="space-y-3">
+                  <div class="w-10 h-10 bg-paho-light-blue/20 text-paho-dark-blue flex items-center justify-center font-bold text-sm">03</div>
+                  <h4 class="text-sm font-bold text-paho-very-dark-blue">Paso 3: Evaluación del Riesgo</h4>
+                  <p class="text-xs text-paho-gray-dark leading-relaxed text-justify">
+                    Evalúe los riesgos a fin de identificar las brechas y aspectos susceptibles de mejora. Estos se filtran de forma automática, el sistema multiplicará la gravedad del riesgo y la probabilidad de ocurrencia para obtener la valoración del riesgo.
+                  </p>
+                </div>
+                <button @click="switchView('step3')" class="mt-4 w-full flex items-center justify-between px-4 py-2.5 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                  <span>Ir a Evaluación Riesgo</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <div class="bg-paho-card p-6 border border-paho-grid flex flex-col justify-between">
+                <div class="space-y-3">
+                  <div class="w-10 h-10 bg-paho-light-blue/20 text-paho-dark-blue flex items-center justify-center font-bold text-sm">04</div>
+                  <h4 class="text-sm font-bold text-paho-very-dark-blue">Paso 4: Plan de Mejora</h4>
+                  <p class="text-xs text-paho-gray-dark leading-relaxed text-justify">
+                    Formule un plan de mejora con medidas y acciones para cada brecha. Asigne plazos de entrega, recursos y responsables de manera dinámica utilizando los integrantes cargados en el equipo de trabajo.
+                  </p>
+                </div>
+                <button @click="switchView('step4')" class="mt-4 w-full flex items-center justify-between px-4 py-2.5 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                  <span>Ir a Plan de Mejora</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <div class="bg-paho-card p-6 border border-paho-grid flex flex-col justify-between">
+                <div class="space-y-3">
+                  <div class="w-10 h-10 bg-paho-light-blue/20 text-paho-dark-blue flex items-center justify-center font-bold text-sm">05</div>
+                  <h4 class="text-sm font-bold text-paho-very-dark-blue">Paso 5: Monitoreo, adaptación, Revisión y Mejoras al Plan</h4>
+                  <p class="text-xs text-paho-gray-dark leading-relaxed text-justify">
+                    Establezca un plan de monitoreo para determinar si se están aplicando todas las medidas, en qué etapa se encuentran y qué otras medidas deben adoptarse para que las acciones se completen en la fecha prevista y logren su objetivo.
+                  </p>
+                </div>
+                <button @click="switchView('step5')" class="mt-4 w-full flex items-center justify-between px-4 py-2.5 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                  <span>Ir a Monitoreo y Revisión</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <div class="bg-paho-dark-blue p-6 text-white flex flex-col justify-between min-h-[200px]"> 
+                <div class="space-y-1.5">
+                  <h4 class="text-sm font-bold">Paso final: Resumen</h4>
+                  <p class="text-xs text-paho-light-blue leading-relaxed text-justify">
+                    Analice los resultados de la evaluación mediante el gráfico resumen y la tabla de resultados de los niveles de servicio del JMP.
+                  </p>
+                </div>
+                <button @click="switchView('dashboard')" class="mt-4 w-full flex items-center justify-between px-4 py-2.5 bg-white hover:bg-paho-card text-paho-dark-blue text-xs font-bold transition-colors rounded-none">
+                  <span>Ir a Resumen</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODULE 1: DATOS GENERALES -->
+          <div v-show="activeView === 'general' || isPrintingAll" class="space-y-8">
+            <div class="p-8 bg-paho-dark-blue text-white flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div class="space-y-2">
+                <h3 class="text-2xl font-bold tracking-tight">Instrumento WASH FIT</h3>
+                <p class="text-sm text-paho-light-blue w-full">Registre la información básica del establecimiento de salud para contextualizar la evaluación de cumplimiento e identificar los riesgos críticos.</p>
+              </div>
+              <div class="p-4 bg-paho-very-dark-blue border border-white/10 text-center w-full md:w-auto">
+                <span class="block text-xs text-paho-light-blue">Fecha de Registro</span>
+                <input type="date" v-model="generalInfo.evaluationDate" class="bg-transparent text-white text-sm font-bold focus:outline-none text-center mt-1 border-b border-dashed border-paho-light-blue pb-1 w-full md:w-auto">
+              </div>
+            </div>
+
+            <div class="space-y-8">
+              <div class="bg-paho-card rounded-none border border-paho-grid p-8 space-y-6">
+                <div class="border-b border-paho-grid pb-4">
+                  <h4 class="text-base font-bold text-paho-very-dark-blue">Detalles de la Instalación</h4>
+                  <p class="text-xs text-paho-gray-medium mt-1">Defina el nivel técnico, tipología y nombre del establecimiento de salud.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                  <div class="space-y-2 lg:col-span-2">
+                    <div class="min-h-[32px] flex items-center justify-center">
+                      <label class="text-xs font-bold text-paho-gray-dark uppercase tracking-wider leading-tight text-center">Nombre del Establecimiento</label>
+                    </div>
+                    <input type="text" v-model="generalInfo.facilityName" placeholder="Ej: Hospital de Especialidades Médicas" class="w-full px-4 py-3 border border-paho-grid text-sm focus:border-paho-blue outline-none transition-all bg-white text-paho-gray-dark">
+                  </div>
+
+                  <div class="space-y-2">
+                    <div class="min-h-[32px] flex items-center justify-center">
+                      <label class="text-xs font-bold text-paho-gray-dark uppercase tracking-wider leading-tight text-center">Ciudad / País </label>
+                    </div>
+                    <input type="text" v-model="generalInfo.district" placeholder="Ej: Distrito Metropolitano, Colombia" class="w-full px-4 py-3 border border-paho-grid text-sm focus:border-paho-blue outline-none transition-all bg-white text-paho-gray-dark">
+                  </div>
+
+                  <div class="space-y-2">
+                    <div class="min-h-[32px] flex items-center justify-center">
+                      <label class="text-xs font-bold text-paho-gray-dark uppercase tracking-wider leading-tight text-center">Latitud</label>
+                    </div>
+                    <input type="number" step="any" v-model.number="generalInfo.latitude" @input="onCoordinatesInput" placeholder="Ej: -12.1485" class="w-full px-4 py-3 border border-paho-grid text-sm focus:border-paho-blue outline-none transition-all bg-white text-paho-gray-dark">
+                  </div>
+
+                  <div class="space-y-2">
+                    <div class="min-h-[32px] flex items-center justify-center">
+                      <label class="text-xs font-bold text-paho-gray-dark uppercase tracking-wider leading-tight text-center">Longitud</label>
+                    </div>
+                    <input type="number" step="any" v-model.number="generalInfo.longitude" @input="onCoordinatesInput" placeholder="Ej: -76.9841" class="w-full px-4 py-3 border border-paho-grid text-sm focus:border-paho-blue outline-none transition-all bg-white text-paho-gray-dark">
+                  </div>
+
+                  <div class="space-y-2 lg:col-span-2">
+                    <div class="min-h-[32px] flex items-center justify-center">
+                      <label class="text-xs font-bold text-paho-gray-dark uppercase tracking-wider leading-tight text-center">Nivel del Establecimiento</label>
+                    </div>
+                    <select v-model="generalInfo.level" class="w-full px-4 py-3 border border-paho-grid text-sm focus:border-paho-blue outline-none bg-white transition-all text-paho-gray-dark">
+                      <option value="Primer Nivel">Primer Nivel (Atención Primaria / Puesto de Salud)</option>
+                    </select>
+                  </div>
+
+                  <div class="space-y-2 lg:col-span-3">
+                    <div class="min-h-[32px] flex items-center justify-center">
+                      <label class="text-xs font-bold text-paho-gray-dark uppercase tracking-wider leading-tight text-center">Tipo de Institución</label>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                      <button type="button" @click="generalInfo.type = 'Público'" :class="['py-3 px-4 border text-sm font-semibold transition-all rounded-none', generalInfo.type === 'Público' ? 'bg-paho-dark-blue border-paho-dark-blue text-white' : 'border-paho-grid text-paho-gray-dark bg-white hover:bg-paho-card']">
+                        Público
+                      </button>
+                      <button type="button" @click="generalInfo.type = 'Privado'" :class="['py-3 px-4 border text-sm font-semibold transition-all rounded-none', generalInfo.type === 'Privado' ? 'bg-paho-dark-blue border-paho-dark-blue text-white' : 'border-paho-grid text-paho-gray-dark bg-white hover:bg-paho-card']">
+                        Privado
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="space-y-2 lg:col-span-2">
+                    <div class="min-h-[32px] flex items-center justify-center">
+                      <label class="text-xs font-bold text-paho-gray-dark uppercase tracking-wider leading-tight text-center">Población Atendida Total</label>
+                    </div>
+                    <input 
+                      type="text" 
+                      :value="isPopFocused ? generalInfo.populationServed : formatThousands(generalInfo.populationServed)"
+                      @input="e => updatePopulation(e.target.value)"
+                      @focus="isPopFocused = true"
+                      @blur="isPopFocused = false"
+                      placeholder="Ej: 15,000 habitantes" 
+                      class="w-full px-4 py-3 border border-paho-grid text-sm focus:border-paho-blue outline-none transition-all bg-white text-paho-gray-dark">
+                  </div>
+
+                  <div class="space-y-2 lg:col-span-3">
+                    <div class="min-h-[32px] flex items-center justify-center">
+                      <label class="text-xs font-bold text-paho-gray-dark uppercase tracking-wider leading-tight text-center">Ámbito de Intervención</label>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                      <button type="button" @click="generalInfo.setting = 'Urbano'" :class="['py-3 px-4 border text-sm font-semibold transition-all rounded-none', generalInfo.setting === 'Urbano' ? 'bg-paho-dark-blue border-paho-dark-blue text-white' : 'border-paho-grid text-paho-gray-dark bg-white hover:bg-paho-card']">
+                        Urbano
+                      </button>
+                      <button type="button" @click="generalInfo.setting = 'Rural'" :class="['py-3 px-4 border text-sm font-semibold transition-all rounded-none', generalInfo.setting === 'Rural' ? 'bg-paho-dark-blue border-paho-dark-blue text-white' : 'border-paho-grid text-paho-gray-dark bg-white hover:bg-paho-card']">
+                        Rural
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="lg:col-span-5 pt-4 border-t border-paho-grid space-y-3">
+                    <label class="text-xs font-bold text-paho-gray-dark uppercase tracking-wider block">Población por Grupos Etarios</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                      <div>
+                        <span class="block text-[11px] font-semibold text-paho-gray-medium mb-1">&lt; 5 años</span>
+                        <input 
+                          type="text" 
+                          :value="focusedAgeGroup === 'under5' ? generalInfo.ageGroups.under5 : formatThousands(generalInfo.ageGroups.under5)"
+                          @input="e => updateAgeGroup('under5', e.target.value)"
+                          @focus="focusedAgeGroup = 'under5'"
+                          @blur="focusedAgeGroup = null"
+                          placeholder="Cant." 
+                          class="w-full px-3 py-2 border border-paho-grid text-xs bg-white text-paho-gray-dark focus:border-paho-blue outline-none rounded-none">
+                      </div>
+
+                      <div>
+                        <span class="block text-[11px] font-semibold text-paho-gray-medium mb-1">5 a 17 años</span>
+                        <input 
+                          type="text" 
+                          :value="focusedAgeGroup === 'age5to17' ? generalInfo.ageGroups.age5to17 : formatThousands(generalInfo.ageGroups.age5to17)"
+                          @input="e => updateAgeGroup('age5to17', e.target.value)"
+                          @focus="focusedAgeGroup = 'age5to17'"
+                          @blur="focusedAgeGroup = null"
+                          placeholder="Cant." 
+                          class="w-full px-3 py-2 border border-paho-grid text-xs bg-white text-paho-gray-dark focus:border-paho-blue outline-none rounded-none">
+                      </div>
+
+                      <div>
+                        <span class="block text-[11px] font-semibold text-paho-gray-medium mb-1">18 a 59 años</span>
+                        <input 
+                          type="text" 
+                          :value="focusedAgeGroup === 'over18to59' ? generalInfo.ageGroups.over18to59 : formatThousands(generalInfo.ageGroups.over18to59)"
+                          @input="e => updateAgeGroup('over18to59', e.target.value)"
+                          @focus="focusedAgeGroup = 'over18to59'"
+                          @blur="focusedAgeGroup = null"
+                          placeholder="Cant." 
+                          class="w-full px-3 py-2 border border-paho-grid text-xs bg-white text-paho-gray-dark focus:border-paho-blue outline-none rounded-none">
+                      </div>
+
+                      <div>
+                        <span class="block text-[11px] font-semibold text-paho-gray-medium mb-1">60+ años</span>
+                        <input 
+                          type="text" 
+                          :value="focusedAgeGroup === 'over60' ? generalInfo.ageGroups.over60 : formatThousands(generalInfo.ageGroups.over60)"
+                          @input="e => updateAgeGroup('over60', e.target.value)"
+                          @focus="focusedAgeGroup = 'over60'"
+                          @blur="focusedAgeGroup = null"
+                          placeholder="Cant." 
+                          class="w-full px-3 py-2 border border-paho-grid text-xs bg-white text-paho-gray-dark focus:border-paho-blue outline-none rounded-none">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Geolocalización Mapa -->
+              <div class="bg-paho-card rounded-none border border-paho-grid p-8 space-y-6">
+                <div class="border-b border-paho-grid pb-4">
+                  <h4 class="text-base font-bold text-paho-very-dark-blue">Geolocalización del Establecimiento</h4>
+                  <p class="text-xs text-paho-gray-medium mt-1">Haga clic en el mapa o arrastre el marcador para fijar la ubicación, o bien escriba las coordenadas de Latitud y Longitud en los campos superiores para desplazar el marcador automáticamente.</p>
+                </div>
+                <div id="map-container" class="h-80 w-full border border-paho-grid overflow-hidden relative z-10"></div>
+              </div>
+            </div>
+
+            <!-- Equipo Implementador -->
+            <div class="bg-paho-card border border-paho-grid p-8 space-y-6">
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-paho-grid pb-4 gap-4">
+                <div>
+                  <h4 class="text-base font-bold text-paho-very-dark-blue">Equipo Implementador del WASH FIT</h4>
+                  <p class="text-xs text-paho-gray-medium mt-1">Registre los profesionales encargados de planificar, validar y ejecutar la intervención.</p>
+                </div>
+                <button @click="addTeamMember" class="no-print flex items-center gap-2 px-4 py-2.5 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-all rounded-none">
+                  <i data-lucide="plus" class="w-4 h-4"></i>
+                  <span>Agregar Integrante</span>
+                </button>
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse bg-white border border-paho-grid">
+                  <thead>
+                    <tr class="bg-paho-card border-b border-paho-grid text-[10px] uppercase tracking-wider font-extrabold text-paho-gray-medium">
+                      <th class="py-3 px-4">Nombre Completo</th>
+                      <th class="py-3 px-4">Cargo / Rol en Institución</th>
+                      <th class="py-3 px-4">Institución de Procedencia</th>
+                      <th class="py-3 px-4">Responsabilidad en Equipo WASH</th>
+                      <th class="py-3 px-4">Correo Electrónico</th>
+                      <th class="py-3 px-4 text-right w-44 no-print">Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-paho-grid text-sm">
+                    <tr v-for="(member, index) in generalInfo.team" :key="index" class="hover:bg-paho-card transition-colors">
+                      <td class="py-3.5 px-4">
+                        <div v-if="member.isEditing" class="no-print">
+                          <input type="text" v-model="member.name" placeholder="Ej: Dr. Carlos Pérez" class="w-full px-3 py-1.5 border border-paho-grid text-xs font-semibold text-paho-gray-dark focus:border-paho-blue outline-none bg-white rounded-none">
+                        </div>
+                        <div class="text-xs font-bold text-paho-gray-dark py-2">
+                          {{ member.name || '—' }}
+                        </div>
+                      </td>
+                      
+                      <td class="py-3.5 px-4">
+                        <div v-if="member.isEditing" class="no-print">
+                          <input type="text" v-model="member.role" placeholder="Ej: Jefe de Epidemiología" class="w-full px-3 py-1.5 border border-paho-grid text-xs text-paho-gray-dark focus:border-paho-blue outline-none bg-white rounded-none">
+                        </div>
+                        <div class="text-xs text-paho-gray-medium py-2">
+                          {{ member.role || '—' }}
+                        </div>
+                      </td>
+                      
+                      <td class="py-3.5 px-4">
+                        <div v-if="member.isEditing" class="no-print">
+                          <input type="text" v-model="member.institution" placeholder="Ej: Ministerio de Salud" class="w-full px-3 py-1.5 border border-paho-grid text-xs text-paho-gray-dark focus:border-paho-blue outline-none bg-white rounded-none">
+                        </div>
+                        <div class="text-xs text-paho-gray-medium py-2">
+                          {{ member.institution || '—' }}
+                        </div>
+                      </td>
+                      
+                      <td class="py-3.5 px-4">
+                        <div v-if="member.isEditing" class="no-print">
+                          <input type="text" v-model="member.responsibility" placeholder="Ej: Coordinador de Limpieza" class="w-full px-3 py-1.5 border border-paho-grid text-xs text-paho-gray-dark focus:border-paho-blue outline-none bg-white rounded-none">
+                        </div>
+                        <div class="text-xs text-paho-gray-medium py-2">
+                          {{ member.responsibility || '—' }}
+                        </div>
+                      </td>
+
+                      <td class="py-3.5 px-4">
+                        <div v-if="member.isEditing" class="no-print">
+                          <input type="email" v-model="member.email" placeholder="ejemplo@correo.com" class="w-full px-3 py-1.5 border border-paho-grid text-xs text-paho-gray-dark focus:border-paho-blue outline-none bg-white rounded-none">
+                        </div>
+                        <div class="text-xs text-paho-gray-medium py-2">
+                          {{ member.email || '—' }}
+                        </div>
+                      </td>
+                      
+                      <td class="py-3.5 px-4 text-right no-print">
+                        <div class="flex items-center justify-end gap-1.5">
+                          <button v-if="member.isEditing" @click="confirmTeamMember(index)" class="flex items-center gap-1 px-3 py-1.5 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-[10px] font-bold transition-all rounded-none" title="Confirmar integrante">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            <span>Confirmar</span>
+                          </button>
+                          
+                          <template v-else>
+                            <button @click="editTeamMember(index)" class="p-1.5 text-paho-gray-medium hover:text-paho-dark-blue hover:bg-paho-card transition-all" title="Modificar">
+                              <i data-lucide="edit-3" class="w-4 h-4"></i>
+                            </button>
+                            <button @click="removeTeamMember(index)" class="p-1.5 text-paho-gray-medium hover:text-red-500 hover:bg-red-50 transition-all" title="Eliminar">
+                              <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                          </template>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr v-if="generalInfo.team.length === 0">
+                      <td colspan="6" class="py-8 text-center text-xs text-paho-gray-medium">
+                        No se han agregado integrantes de equipo. Registre al menos un responsable.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Resumen y Registro Fotográfico -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div class="bg-paho-card border border-paho-grid p-8 flex flex-col justify-between">
+                <div>
+                  <div class="border-b border-paho-grid pb-4 mb-6">
+                    <h4 class="text-base font-bold text-paho-very-dark-blue">Resumen y Conclusiones de la Evaluación</h4>
+                    <p class="text-xs text-paho-gray-medium mt-1 text-justify">Escriba una síntesis ejecutiva sobre los hallazgos principales y áreas clave que requieren intervención urgente.</p>
+                  </div>
+                  <textarea v-model="generalInfo.summary" rows="7" placeholder="Redacte aquí una breve descripción del estado general..." class="w-full p-4 border border-paho-grid text-sm focus:border-paho-blue outline-none transition-all bg-white text-paho-gray-dark text-justify"></textarea>
+                </div>
+              </div>
+
+              <div class="bg-paho-card border border-paho-grid p-8 flex flex-col justify-between">
+                <div>
+                  <div class="border-b border-paho-grid pb-4 mb-6">
+                    <h4 class="text-base font-bold text-paho-very-dark-blue">Registro Fotográfico</h4>
+                    <p class="text-xs text-paho-gray-medium mt-1">Suba evidencias críticas observadas en campo.</p>
+                  </div>
+                  
+                  <input type="file" id="real-file-input" class="hidden" accept="image/*" multiple @change="handleFileChange" />
+
+                  <div @click="triggerMockUpload" class="no-print border-2 border-dashed border-paho-grid hover:border-paho-blue p-6 text-center cursor-pointer transition-colors bg-white">
+                    <div class="p-3 bg-paho-card border border-paho-grid inline-block mb-3">
+                      <i data-lucide="camera" class="w-6 h-6 text-paho-gray-medium"></i>
+                    </div>
+                    <span class="block text-xs font-bold text-paho-gray-dark">Arrastre o seleccione fotos</span>
+                    <span class="block text-[10px] text-paho-gray-medium mt-1">Formatos recomendados: JPG, PNG • Max 5MB</span>
+                  </div>
+
+                  <div v-if="generalInfo.photos.length > 0" class="mt-6 space-y-3">
+                    <div v-for="(photo, index) in generalInfo.photos" :key="index" class="flex items-center justify-between p-3 bg-white border border-paho-grid">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 border border-paho-grid flex items-center justify-center overflow-hidden">
+                          <img :src="photo.url" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                          <span class="block text-xs font-bold text-paho-gray-dark truncate max-w-[150px]">{{ photo.name }}</span>
+                          <span class="block text-[10px] text-paho-gray-medium">Cargada con éxito</span>
+                        </div>
+                      </div>
+                      <button @click="removePhoto(index)" class="no-print p-1.5 text-paho-gray-medium hover:text-red-500 transition-colors">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pie de página de Datos Generales (Paso 1) -->
+            <div class="no-print p-8 bg-white border border-paho-grid flex flex-col sm:flex-row justify-between items-center gap-6 mt-8">
+              <div class="space-y-1 text-center sm:text-left">
+                <h4 class="text-base font-bold text-paho-very-dark-blue">¿Ha completado los Datos Generales?</h4>
+                <p class="text-xs text-paho-gray-medium">Avance al Paso 2 para comenzar con la evaluación de la situación por módulos.</p>
+              </div>
+              
+              <button @click="switchView('assessment')" class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                <span>Continuar con el siguiente paso</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- MODULE 2: EVALUACIÓN DE MÓDULOS -->
+          <div v-show="activeView === 'assessment' || isPrintingAll" class="space-y-8">
+            
+            <!-- Tabbed Sub-navigation -->
+            <div class="bg-paho-card p-2 border border-paho-grid flex flex-wrap gap-1.5 no-print">
+              <button v-for="mod in modulesList" :key="mod.id" @click="activeModuleTab = mod.id" 
+                      :class="['flex items-center gap-2 px-4 py-3 font-bold text-xs transition-all duration-150 border rounded-none', activeModuleTab === mod.id ? 'bg-paho-dark-blue text-white border-paho-dark-blue' : 'text-paho-gray-dark bg-white border-paho-grid hover:bg-paho-card']">
+                <span class="w-2.5 h-2.5 rounded-full" :class="mod.color"></span>
+                <span>{{ mod.name }}</span>
+                <span class="px-1.5 py-0.5 text-[10px] font-extrabold rounded-none" :class="activeModuleTab === mod.id ? 'bg-paho-very-dark-blue text-paho-light-blue' : 'bg-paho-gray-light text-paho-gray-dark'">
+                  {{ getModuleAnsweredCount(mod.name) }}/{{ getModuleTotalCount(mod.name) }}
+                </span>
+              </button>
+            </div>
+
+            <!-- Current Module Banner -->
+            <div class="p-6 bg-paho-dark-blue text-white flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <h3 class="text-2xl font-extrabold tracking-tight">Módulo: {{ isPrintingAll ? 'Evaluación de Situación Consolidada' : getActiveModuleName }}</h3>
+              </div>
+              
+              <div class="flex items-center gap-6 bg-paho-very-dark-blue p-4 border border-white/10 w-full md:w-auto justify-around">
+                <div class="text-center min-w-[110px]">
+                  <span class="block text-[10px] text-paho-light-blue uppercase font-bold tracking-wider mb-1">Avance Global</span>
+                  <span class="text-2xl font-extrabold text-white">{{ progressPercentage }}%</span>
+                  <span class="block text-[9px] text-paho-gray-medium mt-0.5">5 Módulos</span>
+                </div>
+                <div class="w-px h-10 bg-white/10"></div>
+                <div class="text-center min-w-[110px]">
+                  <span class="block text-[10px] text-paho-light-blue uppercase font-bold tracking-wider mb-1">Avance Módulo</span>
+                  <span class="text-2xl font-extrabold text-paho-light-blue">{{ getActiveModuleProgressPercentage }}%</span>
+                  <span class="block text-[9px] text-paho-gray-medium mt-0.5">Módulo Activo</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Indicators List -->
+            <div class="space-y-6">
+              <template v-for="ind in (isPrintingAll ? indicators : getFilteredIndicatorsByModule)" :key="ind.id">
+                <div v-if="shouldShowIndicator(ind)" class="bg-white border border-paho-grid overflow-hidden transition-all duration-150 hover:border-paho-gray-medium">
+                  
+                  <div class="p-6 md:p-8 space-y-6">
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+                      <div class="space-y-1">
+                        <div class="flex items-center gap-2.5">
+                          <span class="px-2.5 py-0.5 bg-paho-card border border-paho-grid text-paho-dark-blue font-bold text-xs tracking-wide rounded-none">{{ ind.code }}</span>
+                          <span v-if="ind.jmp" class="px-2 py-0.5 bg-paho-light-blue/25 text-paho-dark-blue text-[10px] font-extrabold uppercase rounded-none">Indicador Core JMP</span>
+                          <span class="px-2 py-0.5 bg-paho-gray-light text-paho-gray-dark text-[10px] font-bold rounded-none">{{ ind.module }}</span>
+                        </div>
+                        <h4 class="text-base font-extrabold text-paho-very-dark-blue pt-1">{{ ind.title }}</h4>
+                        <p class="text-xs text-paho-gray-dark leading-relaxed">{{ ind.desc }}</p>
+                      </div>
+                      
+                      <div class="flex items-center gap-2 flex-shrink-0">
+                        <span v-if="ind.score === 2" class="px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-300 text-xs font-bold rounded-none">2 Puntos - Cumplimiento Completo</span>
+                        <span v-else-if="ind.score === 1" class="px-3 py-1 bg-amber-50 text-amber-800 border border-amber-300 text-xs font-bold rounded-none">1 Punto - Avance Parcial</span>
+                        <span v-else-if="ind.score === 0" class="px-3 py-1 bg-rose-50 text-rose-800 border border-rose-300 text-xs font-bold rounded-none">0 Puntos - Brecha Crítica</span>
+                        <span v-else class="px-3 py-1 bg-paho-card text-paho-gray-medium border border-paho-grid text-xs font-semibold rounded-none">Sin evaluar</span>
+                      </div>
+                    </div>
+
+                    <div class="space-y-3">
+                      <!-- Score 0 -->
+                      <button @click="setIndicatorScore(ind, 0)" 
+                              :class="['w-full p-4 border text-left transition-all duration-150 outline-none flex items-start gap-4 rounded-none cursor-pointer', 
+                                       ind.score === 0 ? 'bg-rose-50 border-rose-300 text-paho-gray-dark' : 'border-paho-grid text-paho-gray-dark bg-white hover:bg-paho-card']">
+                        <div class="flex items-center h-5 mt-0.5 flex-shrink-0">
+                          <div class="w-4 h-4 rounded-full border flex items-center justify-center bg-white transition-all duration-150"
+                               :class="ind.score === 0 ? 'border-rose-500 bg-rose-50' : 'border-paho-gray-medium'">
+                            <div v-if="ind.score === 0" class="w-2 h-2 rounded-full bg-rose-600"></div>
+                          </div>
+                        </div>
+                        <div>
+                          <span class="block text-xs font-bold text-paho-very-dark-blue uppercase tracking-wide">Puntaje 0 — No cumple</span>
+                          <p class="text-[11px] text-paho-gray-dark mt-0.5 leading-relaxed">{{ ind.eval0 }}</p>
+                        </div>
+                      </button>
+
+                      <!-- Score 1 -->
+                      <button @click="setIndicatorScore(ind, 1)" 
+                              :class="['w-full p-4 border text-left transition-all duration-150 outline-none flex items-start gap-4 rounded-none cursor-pointer', 
+                                       ind.score === 1 ? 'bg-amber-50 border-amber-300 text-paho-gray-dark' : 'border-paho-grid text-paho-gray-dark bg-white hover:bg-paho-card']">
+                        <div class="flex items-center h-5 mt-0.5 flex-shrink-0">
+                          <div class="w-4 h-4 rounded-full border flex items-center justify-center bg-white transition-all duration-150"
+                               :class="ind.score === 1 ? 'border-amber-500 bg-amber-50' : 'border-paho-gray-medium'">
+                            <div v-if="ind.score === 1" class="w-2 h-2 rounded-full bg-amber-600"></div>
+                          </div>
+                        </div>
+                        <div>
+                          <span class="block text-xs font-bold text-paho-very-dark-blue uppercase tracking-wide">Puntaje 1 — Cumple parcialmente</span>
+                          <p class="text-[11px] text-paho-gray-dark mt-0.5 leading-relaxed">{{ ind.eval1 }}</p>
+                        </div>
+                      </button>
+
+                      <!-- Score 2 -->
+                      <button @click="setIndicatorScore(ind, 2)" 
+                              :class="['w-full p-4 border text-left transition-all duration-150 outline-none flex items-start gap-4 rounded-none cursor-pointer', 
+                                       ind.score === 2 ? 'bg-emerald-50 border-emerald-300 text-paho-gray-dark' : 'border-paho-grid text-paho-gray-dark bg-white hover:bg-paho-card']">
+                        <div class="flex items-center h-5 mt-0.5 flex-shrink-0">
+                          <div class="w-4 h-4 rounded-full border flex items-center justify-center bg-white transition-all duration-150"
+                               :class="ind.score === 2 ? 'border-emerald-500 bg-emerald-50' : 'border-paho-gray-medium'">
+                            <div v-if="ind.score === 2" class="w-2 h-2 rounded-full bg-emerald-600"></div>
+                          </div>
+                        </div>
+                        <div>
+                          <span class="block text-xs font-bold text-paho-very-dark-blue uppercase tracking-wide">Puntaje 2 — Cumple</span>
+                          <p class="text-[11px] text-paho-gray-dark mt-0.5 leading-relaxed">{{ ind.eval2 }}</p>
+                        </div>
+                      </button>
+                    </div>
+
+                    <div class="flex items-start gap-2.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-paho-gray-medium mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                      </svg>
+                      <p class="text-[11px] text-paho-gray-dark leading-relaxed">
+                        <span class="font-bold text-paho-very-dark-blue">Nota aclaratoria:</span> 
+                        <span v-html="ind.guidance"></span>
+                      </p>
+                    </div>
+                      
+                    <div class="space-y-1.5 w-full">
+                      <label class="text-[10px] font-bold text-paho-gray-dark uppercase tracking-wider block">Comentarios de Campo / Hallazgos</label>
+                      <input type="text" v-model="ind.notes" placeholder="Describa el estado, fecha o condiciones..." class="w-full px-4 py-2.5 text-xs border border-paho-grid bg-white focus:outline-none focus:border-paho-blue text-paho-gray-dark rounded-none">
+                    </div>
+                  </div>
+
+                  <!-- 1. PREGUNTA DE ALCANTARILLADO -->
+                  <div v-if="activeModuleTab === 'sanitation' && ind.code === 'S_7'" class="mt-6 p-5 bg-paho-card border border-paho-blue space-y-4">
+                    <label class="block text-xs font-extrabold text-paho-very-dark-blue uppercase tracking-wider">
+                      ¿El establecimiento cuenta con red de alcantarillado público?
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <button 
+                        type="button" 
+                        @click="setSanitationSystem('alcantarillado')"
+                        :class="['py-3 px-4 text-xs font-bold border transition-all text-center rounded-none', generalInfo.sanitationSystem === 'alcantarillado' ? 'bg-paho-dark-blue text-white border-paho-dark-blue' : 'bg-white text-paho-gray-dark border-paho-grid hover:bg-paho-card']">
+                        Sí — Red de Alcantarillado (Omite S_8 y S_9, pasa a S_10)
+                      </button>
+                      <button 
+                        type="button" 
+                        @click="setSanitationSystem('insitu')"
+                        :class="['py-3 px-4 text-xs font-bold border transition-all text-center rounded-none', generalInfo.sanitationSystem === 'insitu' ? 'bg-paho-dark-blue text-white border-paho-dark-blue' : 'bg-white text-paho-gray-dark border-paho-grid hover:bg-paho-card']">
+                        No — Sistema In Situ (Evalúa S_8 y luego S_9a o S_9b)
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- 2. SELECTOR DE S_9 -->
+                  <div v-if="activeModuleTab === 'sanitation' && ind.code === 'S_8' && generalInfo.sanitationSystem === 'insitu'" class="mt-6 p-5 bg-paho-card border border-paho-blue space-y-3">
+                    <label class="block text-[11px] font-bold text-paho-gray-dark uppercase tracking-wider">
+                      Seleccione la opción a evaluar para S_9:
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <button 
+                        type="button" 
+                        @click="generalInfo.selectedS9Option = 'S_9a'"
+                        :class="['py-2.5 px-3 text-xs font-bold border transition-all text-left rounded-none', generalInfo.selectedS9Option === 'S_9a' ? 'bg-paho-blue text-white border-paho-blue' : 'bg-white text-paho-gray-dark border-paho-grid']">
+                        Evaluar S_9a (Conexión / Tanque sin fugas)
+                      </button>
+                      <button 
+                        type="button" 
+                        @click="generalInfo.selectedS9Option = 'S_9b'"
+                        :class="['py-2.5 px-3 text-xs font-bold border transition-all text-left rounded-none', generalInfo.selectedS9Option === 'S_9b' ? 'bg-paho-blue text-white border-paho-blue' : 'bg-white text-paho-gray-dark border-paho-grid']">
+                        Evaluar S_9b (Vaciado periódico de lodos)
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </template>
+            </div>
+
+            <!-- Pie de página del Módulo de Evaluación de Situación (Paso 2) -->
+            <div class="no-print p-8 bg-white border border-paho-grid flex flex-col sm:flex-row justify-between items-center gap-6">
+              <div class="space-y-1 text-center sm:text-left">
+                <h4 class="text-base font-bold text-paho-very-dark-blue">
+                  {{ activeModuleTab === 'cleaning' ? '¿Ha completado la evaluación de la situación?' : '¿Ha completado este Módulo?' }}
+                </h4>
+                <p class="text-xs text-paho-gray-medium">
+                  {{ activeModuleTab === 'cleaning' ? 'Puede avanzar al Paso 3 para desarrollar la matriz de evaluación de riesgos.' : 'Puede continuar completando otros módulos utilizando la barra superior o reiniciar el progreso actual.' }}
+                </p>
+              </div>
+              
+              <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                <button @click="clearCurrentModule" class="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold border border-red-200 transition-colors rounded-none" title="Eliminar todo el llenado de este módulo">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                  <span>Reiniciar el llenado del Módulo</span>
+                </button>
+                
+                <button v-if="activeModuleTab === 'cleaning'" 
+                        @click="switchView('step3')" 
+                        class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                  <span>Continuar con el siguiente paso</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+
+                <button v-else 
+                        @click="navigateNextModule" 
+                        class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                  <span>Siguiente Módulo</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODULE 3: PASO 3: EVALUACIÓN DEL RIESGO -->
+          <div v-show="activeView === 'step3' || isPrintingAll" class="space-y-8">
+            <div class="bg-paho-card p-6 border border-paho-grid flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <h3 class="text-lg font-bold text-paho-very-dark-blue">Paso 3: Matriz de Evaluación de Riesgos</h3>
+                <p class="text-xs text-paho-gray-medium mt-1">Identifique la Gravedad (impacto) y la Probabilidad (ocurrencia) para las brechas (puntaje 0 o 1) detectadas.</p>
+              </div>
+              
+              <div class="flex items-center gap-4 flex-wrap sm:flex-nowrap">
+                <div class="flex items-center gap-2 px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold rounded-none">
+                  <span>Total Brechas:</span>
+                  <span class="text-sm font-black">{{ totalGaps }}</span>
+                </div>
+
+                <div class="no-print flex items-center gap-3">
+                  <span class="text-xs font-semibold text-paho-gray-dark">Mostrar sólo brechas (0–1):</span>
+                  <button @click="filterOnlyGaps = !filterOnlyGaps" :class="['w-12 h-6 flex items-center rounded-full p-1 transition-all duration-300 border border-paho-grid', filterOnlyGaps ? 'bg-paho-blue' : 'bg-paho-gray-light']">
+                    <div :class="['bg-white w-4 h-4 rounded-full transform transition-transform duration-300', filterOnlyGaps ? 'translate-x-6' : 'translate-x-0']"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white border border-paho-grid overflow-hidden">
+              <div class="overflow-auto max-h-[65vh]">
+                <table class="w-full text-left border-collapse min-w-[1000px]">
+                  <thead class="sticky top-0 z-20 bg-paho-card border-b border-paho-grid">
+                    <tr class="text-[10px] uppercase tracking-wider font-extrabold text-paho-gray-dark">
+                      <th class="py-4 px-4 w-36 bg-paho-card">Módulo / Cód</th>
+                      <th class="py-4 px-4 w-[15ch] max-w-[15ch] text-center bg-paho-card">Indicador</th>
+                      <th class="py-4 px-4 min-w-[260px] text-center bg-paho-card">Problema</th>
+                      <th class="py-4 px-4 min-w-[280px] text-center bg-paho-card">Riesgos Asociados</th>
+                      <th class="py-4 px-4 w-24 text-center bg-paho-card">Gravedad</th>
+                      <th class="py-4 px-4 w-24 text-center bg-paho-card">Probabilidad</th>
+                      
+                      <th @click="toggleRiskSort" class="py-4 px-4 w-28 text-center bg-paho-card border-l border-paho-grid cursor-pointer hover:bg-paho-grid/50 select-none" title="Haga clic para ordenar por nivel de riesgo">
+                        <div class="flex items-center justify-center gap-1">
+                          <span>Riesgo</span>
+                          <span v-if="sortRiskOrder === 'desc'" class="text-xs font-bold text-paho-blue">↓</span>
+                          <span v-else-if="sortRiskOrder === 'asc'" class="text-xs font-bold text-paho-blue">↑</span>
+                          <span v-else class="text-[10px] text-paho-gray-medium opacity-50">↕</span>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-paho-grid text-xs">
+                    <tr v-for="ind in getSortedGaps" :key="ind.id" class="hover:bg-paho-card/20 align-top">
+                      <td class="py-4 px-4 align-top">
+                        <div class="border border-paho-grid bg-paho-card text-center py-1 font-bold text-[11px] text-paho-dark-blue">
+                          {{ ind.code }}
+                        </div>
+                        <div class="mt-2 text-center text-[10px] font-semibold text-paho-gray-dark">
+                          {{ ind.module }}
+                        </div>
+                        <div class="mt-2 text-center">
+                          <span v-if="ind.score==0" class="inline-block px-2 py-1 text-[10px] font-bold bg-rose-50 border border-rose-200 text-rose-700">Score 0</span>
+                          <span v-else-if="ind.score==1" class="inline-block px-2 py-1 text-[10px] font-bold bg-amber-50 border border-amber-200 text-amber-700">Score 1</span>
+                          <span v-else class="inline-block px-2 py-1 text-[10px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-700">Score 2</span>
+                        </div>
+                      </td>
+
+                      <td class="py-4 px-4 align-top w-[15ch] max-w-[15ch] text-center">
+                        <div class="font-bold text-paho-very-dark-blue text-[12px] leading-snug break-words text-center">
+                          {{ ind.title }}
+                        </div>
+                      </td>
+
+                      <td class="py-4 px-4 h-full">
+                        <textarea v-model="ind.problemDesc" 
+                                  rows="8"
+                                  placeholder="Describa el problema específico..." 
+                                  class="w-full h-full min-h-[100px] p-2 border border-paho-grid rounded-none text-xs resize-none bg-white focus:border-paho-blue outline-none text-justify"></textarea>
+                      </td>
+
+                      <td class="py-4 px-4 h-full">
+                        <textarea v-model="ind.associatedRisks" 
+                                  rows="8"
+                                  placeholder="Describa los riesgos asociados..." 
+                                  class="w-full h-full min-h-[100px] p-2 border border-paho-grid rounded-none text-xs resize-none bg-white focus:border-paho-blue outline-none text-justify"></textarea>
+                      </td>
+
+                      <td class="py-4 px-4 text-center align-top">
+                        <select v-model.number="ind.severity" class="w-20 px-2 py-1 border border-paho-grid bg-white text-xs">
+                          <option :value="null">—</option>
+                          <option v-for="n in 10" :key="n" :value="n">{{ n }}</option>
+                        </select>
+                        <div class="text-[9px] mt-1 text-paho-gray-medium">Impacto</div>
+                      </td>
+
+                      <td class="py-4 px-4 text-center align-top">
+                        <select v-model.number="ind.likelihood" class="w-20 px-2 py-1 border border-paho-grid bg-white text-xs">
+                          <option :value="null">—</option>
+                          <option v-for="n in 10" :key="n" :value="n">{{ n }}</option>
+                        </select>
+                        <div class="text-[9px] mt-1 text-paho-gray-medium">Ocurrencia</div>
+                      </td>
+
+                      <td class="py-4 px-4 text-center align-top bg-paho-card/40 border-l border-paho-grid">
+                        <span :class="['text-sm font-extrabold px-3 py-1 border', getRiskColorClass(calculateRiskScore(ind))]">
+                          {{ calculateRiskScore(ind) !== null ? calculateRiskScore(ind) : '—' }}
+                        </span>
+                        <div class="text-[9px] mt-2 font-bold uppercase text-paho-gray-medium">
+                          {{ getRiskLabel(calculateRiskScore(ind)) }}
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr v-if="getSortedGaps.length === 0">
+                      <td colspan="7" class="py-12 text-center text-xs text-paho-gray-medium">
+                        No hay brechas para mostrar.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Pie de página de Evaluación del Riesgo (Paso 3) -->
+            <div class="no-print p-8 bg-white border border-paho-grid flex flex-col sm:flex-row justify-between items-center gap-6 mt-8">
+              <div class="space-y-1 text-center sm:text-left">
+                <h4 class="text-base font-bold text-paho-very-dark-blue">¿Ha completado la Matriz de Riesgos?</h4>
+                <p class="text-xs text-paho-gray-medium">Avance al Paso 4 para estructurar el Plan de Mejora institucional.</p>
+              </div>
+              
+              <button @click="switchView('step4')" class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                <span>Continuar con el siguiente paso</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- MODULE 4: PASO 4: PLAN DE MEJORA -->
+          <div v-show="activeView === 'step4' || isPrintingAll" class="space-y-8">
+            <div class="bg-paho-card p-6 border border-paho-grid">
+              <h3 class="text-lg font-bold text-paho-very-dark-blue">Paso 4: Plan de Mejora</h3>
+              <p class="text-xs text-paho-gray-medium mt-1">Defina acciones específicas de mitigación, plazos, responsables técnicos y recursos necesarios para cada riesgo prioritario.</p>
+            </div>
+
+            <div class="bg-white border border-paho-grid overflow-hidden">
+              <div class="overflow-auto max-h-[65vh]">
+                <table class="w-full text-left border-collapse min-w-[1200px]">
+                  <thead class="sticky top-0 z-20 bg-paho-card border-b border-paho-grid">
+                    <tr class="text-[10px] uppercase tracking-wider font-extrabold text-paho-gray-dark">
+                      <th class="py-4 px-4 w-28 text-center bg-paho-card">Módulo / Cód</th>
+                      <th class="py-4 px-4 w-[15ch] max-w-[15ch] text-center bg-paho-card">Indicador</th>
+                      <th class="py-4 px-4 min-w-[250px] text-center bg-paho-card">Descripción del Problema</th>
+                      <th class="py-4 px-4 min-w-[260px] text-center bg-paho-card">Acción de Mitigación</th>
+                      <th class="py-4 px-4 w-40 text-center bg-paho-card">Fecha de Realización</th>
+                      <th class="py-4 px-4 min-w-[220px] text-center bg-paho-card">Recursos Necesarios</th>
+                      <th class="py-4 px-4 min-w-[160px] text-center bg-paho-card">Responsable</th>
+                      <th class="py-4 px-4 min-w-[150px] text-center bg-paho-card">Presupuesto</th>
+                      <th class="py-4 px-4 min-w-[160px] text-center bg-paho-card">Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-paho-grid text-xs">
+                    <tr v-for="ind in getSortedGaps" :key="ind.id" class="hover:bg-paho-card/20 align-top">
+                      <td class="py-4 px-4 align-top">
+                        <div class="border border-paho-grid bg-paho-card text-center py-1 font-bold text-[11px] text-paho-dark-blue">
+                          {{ ind.code }}
+                        </div>
+                        <div class="mt-2 text-center text-[10px] font-semibold text-paho-gray-dark">
+                          {{ ind.module }}
+                        </div>
+                      </td>
+
+                      <td class="py-4 px-4 align-top w-[15ch] max-w-[15ch] text-center">
+                        <div class="font-bold text-paho-very-dark-blue text-[12px] leading-snug break-words text-center">
+                          {{ ind.title }}
+                        </div>
+                        <div class="mt-2 flex flex-col gap-1 items-center justify-center">
+                          <span :class="['text-[9px] font-extrabold px-1.5 py-0.5 border inline-block', getRiskColorClass(calculateRiskScore(ind))]">
+                            Riesgo: {{ calculateRiskScore(ind) !== null ? calculateRiskScore(ind) : '—' }}
+                          </span>
+                          <span class="text-[9px] text-paho-gray-medium font-bold uppercase text-center">
+                            {{ getRiskLabel(calculateRiskScore(ind)) }}
+                          </span>
+                        </div>
+                      </td>
+
+                      <td class="py-4 px-4 h-full">
+                        <textarea v-model="ind.problemDesc" 
+                                  rows="8"
+                                  disabled 
+                                  placeholder="Descripción del problema..." 
+                                  class="w-full h-full min-h-[100px] p-2 border border-paho-grid rounded-none text-xs resize-none bg-gray-50 text-paho-gray-medium cursor-not-allowed outline-none text-justify"></textarea>
+                      </td>
+
+                      <td class="py-4 px-4 h-full">
+                        <textarea v-model="ind.action" 
+                                  rows="8"
+                                  placeholder="Describa la acción de mitigación..." 
+                                  class="w-full h-full min-h-[100px] p-2 border border-paho-grid rounded-none text-xs resize-none bg-white text-paho-gray-dark focus:border-paho-blue outline-none text-justify"></textarea>
+                      </td>
+
+                      <td class="py-4 px-4 align-top">
+                        <input type="date" v-model="ind.targetDate" class="w-full p-2 border border-paho-grid rounded-none text-xs text-paho-gray-dark focus:outline-none focus:border-paho-blue bg-white">
+                      </td>
+
+                      <td class="py-4 px-4 h-full">
+                        <textarea v-model="ind.resources" 
+                                  rows="8"
+                                  placeholder="Recursos financieros, materiales y humanos..." 
+                                  class="w-full h-full min-h-[100px] p-2 border border-paho-grid rounded-none text-xs resize-none bg-white text-paho-gray-dark focus:border-paho-blue outline-none text-justify"></textarea>
+                      </td>
+
+                      <td class="py-4 px-4 h-full">
+                        <textarea v-model="ind.responsible" 
+                                  rows="8"
+                                  placeholder="Nombre del responsable..." 
+                                  class="w-full h-full min-h-[100px] p-2 border border-paho-grid rounded-none text-xs resize-none bg-white text-paho-gray-dark focus:border-paho-blue outline-none text-justify"></textarea>
+                      </td>
+
+                      <td class="py-4 px-4 align-top text-center">
+                        <div class="flex justify-center">
+                          <div class="relative w-28">
+                            <span class="absolute left-2 top-2 text-paho-gray-medium text-[10px] font-bold">$</span>
+                            <input type="text" 
+                                   :value="focusedCostId === ind.id ? ind.cost : formatThousands(ind.cost)"
+                                   @input="e => updateCost(ind, e.target.value)"
+                                   @focus="focusedCostId = ind.id"
+                                   @blur="focusedCostId = null"
+                                   placeholder="0.00" 
+                                   class="w-full pl-5 pr-1.5 py-2 border border-paho-grid text-xs font-semibold focus:outline-none focus:border-paho-blue bg-white text-paho-gray-dark rounded-none text-right">
+                          </div>
+                        </div>
+                        <span class="block text-[9px] text-paho-gray-medium mt-1 text-center">USD</span>
+                      </td>
+
+                      <td class="py-4 px-4 align-top flex justify-center">
+                        <select v-model="ind.trackingStatus" class="w-42 p-2 border border-paho-grid rounded-none text-xs bg-white text-paho-gray-dark focus:outline-none focus:border-paho-blue">
+                          <option value="No Iniciado">No iniciado</option>
+                          <option value="En Progreso">En curso (según lo previsto)</option>
+                          <option value="Retrasado">En curso (se prevé retraso)</option>
+                          <option value="Completado">Completado</option>
+                        </select>
+                      </td>
+                    </tr>
+
+                    <tr v-if="getSortedGaps.length === 0">
+                      <td colspan="9" class="py-12 text-center text-xs text-paho-gray-medium">
+                        No hay brechas para mostrar. Complete la evaluación y la matriz de riesgos para poder planificar las medidas de mejora.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Pie de página del Plan de Mejora (Paso 4) -->
+            <div class="no-print p-8 bg-white border border-paho-grid flex flex-col sm:flex-row justify-between items-center gap-6 mt-8">
+              <div class="space-y-1 text-center sm:text-left">
+                <h4 class="text-base font-bold text-paho-very-dark-blue">¿Ha formulado las acciones de mejora?</h4>
+                <p class="text-xs text-paho-gray-medium">Avance al Paso 5 para establecer las pautas de monitoreo y revisión continua.</p>
+              </div>
+              
+              <button @click="switchView('step5')" class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                <span>Continuar con el siguiente paso</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- MODULE 5: PASO 5: MONITOREO Y REVISIÓN DEL PLAN -->
+          <div v-show="activeView === 'step5' || isPrintingAll" class="space-y-8">
+            <div class="bg-paho-card p-6 border border-paho-grid">
+              <h3 class="text-lg font-bold text-paho-very-dark-blue">Paso 5: Monitoreo, adaptación, Revisión y Mejoras al Plan</h3>
+              <p class="text-xs text-paho-gray-medium mt-1">Supervise de forma continua el estado de avance de las acciones de mitigación del plan estratégico y realice anotaciones clínicas de adaptación.</p>
+            </div>
+
+            <div class="bg-white border border-paho-grid overflow-hidden">
+              <div class="overflow-auto max-h-[65vh]">
+                <table class="w-full text-left border-collapse min-w-[1200px]">
+                  <thead class="sticky top-0 z-20 bg-paho-card border-b border-paho-grid">
+                    <tr class="text-[10px] font-extrabold text-paho-gray-dark align-middle">
+                      <th class="py-4 px-4 w-28 text-center uppercase tracking-wider bg-paho-card">Módulo / Cód</th>
+                      <th class="py-4 px-4 w-[15ch] max-w-[15ch] text-center uppercase tracking-wider bg-paho-card">Indicador</th>
+                      <th class="py-4 px-4 min-w-[250px] text-center uppercase tracking-wider bg-paho-card">Descripción del Problema</th>
+                      <th class="py-4 px-4 min-w-[260px] text-center uppercase tracking-wider bg-paho-card">Acción de Mitigación</th>
+                      <th class="py-4 px-4 min-w-[220px] text-center normal-case bg-paho-card">
+                        <span class="block font-extrabold text-[10px] uppercase tracking-wider">¿Ha mejorado, empeorado o no ha cambiado el indicador desde la última evaluación?</span>
+                      </th>
+                      <th class="py-4 px-4 min-w-[260px] text-center normal-case bg-paho-card">
+                        <span class="block font-extrabold text-[10px] uppercase tracking-wider">Si la tarea está en curso y/o se ha retrasado, ¿qué medidas correctivas o adicionales son necesarias?</span>
+                      </th>
+                      <th class="py-4 px-4 w-44 text-center normal-case uppercase tracking-wider bg-paho-card">¿CUÁNDO SE EVALUARÁ/REVISARÁ EL PROBLEMA?</th>
+                      <th class="py-4 px-4 min-w-[200px] text-center uppercase tracking-wider bg-paho-card">Comentarios/Notas Adicionales</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-paho-grid text-xs">
+                    <tr v-for="ind in getSortedGaps" :key="ind.id" class="hover:bg-paho-card/20 align-top">
+                      <td class="py-4 px-4 align-top">
+                        <div class="border border-paho-grid bg-paho-card text-center py-1 font-bold text-[11px] text-paho-dark-blue">
+                          {{ ind.code }}
+                        </div>
+                        <div class="mt-2 text-center text-[10px] font-semibold text-paho-gray-dark">
+                          {{ ind.module }}
+                        </div>
+                      </td>
+
+                      <td class="py-4 px-4 align-top w-[15ch] max-w-[15ch] text-center">
+                        <div class="font-bold text-paho-very-dark-blue text-[12px] leading-snug break-words text-center">
+                          {{ ind.title }}
+                        </div>
+                      </td>
+
+                      <td class="py-4 px-4 h-full">
+                        <textarea v-model="ind.problemDesc" 
+                                  rows="8"
+                                  disabled 
+                                  placeholder="Descripción del problema..." 
+                                  class="w-full h-full min-h-[100px] p-2 border border-paho-grid rounded-none text-xs resize-none bg-gray-50 text-paho-gray-medium cursor-not-allowed outline-none text-justify"></textarea>
+                      </td>
+
+                      <td class="py-4 px-4 h-full">
+                        <textarea v-model="ind.action" 
+                                  rows="8"
+                                  disabled 
+                                  placeholder="— Sin medida redactada aún —" 
+                                  class="w-full h-full min-h-[100px] p-2 border border-paho-grid rounded-none text-xs resize-none bg-gray-50 text-paho-gray-medium cursor-not-allowed outline-none text-justify"></textarea>
+                      </td>
+
+                      <td class="py-4 px-4 align-top">
+                        <select v-model="ind.indicatorChange" class="w-full p-2 border border-paho-grid rounded-none text-xs bg-white text-paho-gray-dark focus:outline-none focus:border-paho-blue">
+                          <option value="mejorado">Ha mejorado</option>
+                          <option value="empeorado">Ha empeorado</option>
+                          <option value="sin_cambios">No ha cambiado</option>
+                        </select>
+                      </td>
+
+                      <td class="py-4 px-4 h-full">
+                        <textarea v-model="ind.correctiveMeasures" 
+                                  rows="8"
+                                  placeholder="Describa las acciones correctivas o de sostenibilidad..." 
+                                  class="w-full h-full min-h-[100px] p-2 border border-paho-grid rounded-none text-xs resize-none bg-white text-paho-gray-dark focus:border-paho-blue outline-none text-justify"></textarea>
+                      </td>
+
+                      <td class="py-4 px-4 align-top">
+                        <input type="date" v-model="ind.nextReviewDate" class="w-full p-2 border border-paho-grid rounded-none text-xs text-paho-gray-dark focus:outline-none focus:border-paho-blue bg-white">
+                      </td>
+
+                      <td class="py-4 px-4 h-full">
+                        <textarea v-model="ind.monitoringComments" 
+                                  rows="8"
+                                  placeholder="Notas adicionales de control o auditoría técnica..." 
+                                  class="w-full h-full min-h-[100px] p-2 border border-paho-grid rounded-none text-xs resize-none bg-white text-paho-gray-dark focus:border-paho-blue outline-none text-justify"></textarea>
+                      </td>
+                    </tr>
+
+                    <tr v-if="getSortedGaps.length === 0">
+                      <td colspan="8" class="py-12 text-center text-xs text-paho-gray-medium">
+                        No hay brechas para monitorear. Complete la evaluación y la matriz de riesgos.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Pie de página de Monitoreo y Revisión (Paso 5) -->
+            <div class="no-print p-8 bg-white border border-paho-grid flex flex-col sm:flex-row justify-between items-center gap-6 mt-8">
+              <div class="space-y-1 text-center sm:text-left">
+                <h4 class="text-base font-bold text-paho-very-dark-blue">¿Ha registrado los avances de monitoreo?</h4>
+                <p class="text-xs text-paho-gray-medium">Consulte el Resumen final para ver los indicadores consolidados y gráficos ejecutivos.</p>
+              </div>
+              
+              <button @click="switchView('dashboard')" class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-paho-dark-blue hover:bg-paho-very-dark-blue text-white text-xs font-bold transition-colors rounded-none">
+                <span>Continuar con el siguiente paso</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- MODULE 6: EXECUTIVE DASHBOARD (RESUMEN) -->
+          <div v-show="activeView === 'dashboard' || isPrintingAll" class="space-y-8">
+            
+            <!-- KPI Summary Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              
+              <!-- 1. CUMPLIMIENTO GENERAL -->
+              <div class="bg-paho-card p-6 border border-paho-grid flex items-center justify-between">
+                <div class="space-y-1">
+                  <span class="text-xs font-semibold text-paho-gray-medium uppercase tracking-wider">Cumplimiento General</span>
+                  <span class="block text-3xl font-extrabold text-paho-dark-blue tracking-tight">{{ overallCompliance }}%</span>
+                  <span class="text-[10px] text-paho-dark-blue font-bold block">Puntaje global consolidado</span>
+                </div>
+                <div class="p-4 bg-paho-light-blue/20 text-paho-dark-blue">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="7"></circle>
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- 2. VALORACIÓN TOTAL DEL ESTABLECIMIENTO -->
+              <div class="bg-paho-card p-6 border border-paho-grid flex items-center justify-between">
+                <div class="space-y-1">
+                  <span class="text-xs font-semibold text-paho-gray-medium uppercase tracking-wider">Valoración del Establecimiento</span>
+                  <span class="block text-base font-extrabold tracking-tight leading-snug" :class="facilityValuation.colorClass">
+                    {{ facilityValuation.label }}
+                  </span>
+                  <span class="text-[10px] text-paho-gray-medium font-bold block">Según nivel de cumplimiento</span>
+                </div>
+
+                <div v-if="overallCompliance > 75" class="p-4 bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                  </svg>
+                </div>
+                <div v-else-if="overallCompliance >= 60" class="p-4 bg-amber-50 text-amber-700 border border-amber-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                  </svg>
+                </div>
+                <div v-else class="p-4 bg-rose-50 text-rose-700 border border-rose-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- 3. BRECHAS CRÍTICAS -->
+              <div class="bg-paho-card p-6 border border-paho-grid flex items-center justify-between">
+                <div class="space-y-1">
+                  <span class="text-xs font-semibold text-paho-gray-medium uppercase tracking-wider">Brechas Críticas</span>
+                  <span class="block text-3xl font-extrabold text-red-600 tracking-tight">{{ totalGaps }}</span>
+                  <span class="text-[10px] text-red-500 font-bold block">Indicadores evaluados con 0 o 1</span>
+                </div>
+                <div class="p-4 bg-red-50 text-red-600 border border-red-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Stacked Layout: Radar Chart, Table, JMP Boxes -->
+            <div class="space-y-8">
+              
+              <!-- Radar Chart -->
+              <div class="bg-paho-card border border-paho-grid p-8 space-y-6">
+                <div class="border-b border-paho-grid pb-4">
+                  <h3 class="text-base font-bold text-paho-very-dark-blue">Porcentaje de Desempeño por Módulo (Radar)</h3>
+                  <p class="text-xs text-paho-gray-medium mt-1">Alineación multidimensional de las áreas evaluadas en la herramienta WASH FIT.</p>
+                </div>
+
+                <div class="flex justify-center items-center py-2 bg-white border border-paho-grid">
+                  <svg viewBox="0 0 750 480" class="w-full max-w-[750px]">
+                    <g>
+                      <polygon v-for="(levelPoints, idx) in radarChartData.levels" 
+                               :points="levelPoints.map(p => p.x + ',' + p.y).join(' ')" 
+                               fill="none" 
+                               stroke="#E6E6E6" 
+                               stroke-width="1" />
+                      <text v-for="level in [20, 40, 60, 80, 100]" 
+                            :x="radarChartData.cx + 6" 
+                            :y="radarChartData.cy - (radarChartData.rMax * (level / 100)) + 3" 
+                            fill="#808080" 
+                            font-size="9" 
+                            font-weight="bold">{{ level }}%</text>
+                    </g>
+                    
+                    <g>
+                      <line v-for="axis in radarChartData.axes" 
+                            :x1="axis.x1" 
+                            :y1="axis.y1" 
+                            :x2="axis.x2" 
+                            :y2="axis.y2" 
+                            stroke="#D9D9D6" 
+                            stroke-width="1" 
+                            stroke-dasharray="3,3" />
+                    </g>
+
+                    <polygon :points="radarChartData.polygonString" 
+                             fill="rgba(0, 141, 201, 0.12)" 
+                             stroke="#008DC9" 
+                             stroke-width="2.5" 
+                             class="transition-all duration-1000 ease-out" />
+                    
+                    <g>
+                      <circle v-for="p in radarChartData.points" 
+                              :cx="p.x" 
+                              :cy="p.y" 
+                              r="4.5" 
+                              :fill="p.color" 
+                              stroke="white" 
+                              stroke-width="1.5" />
+                    </g>
+
+                    <g>
+                      <text v-for="p in radarChartData.points" 
+                            :x="p.lx" 
+                            :y="p.ly" 
+                            :text-anchor="p.anchor" 
+                            fill="#4D4D4D" 
+                            font-size="10.5" 
+                            class="font-extrabold select-none">
+                        <tspan :x="p.lx" dy="0">{{ p.label }}</tspan>
+                        <tspan :x="p.lx" dy="14" :fill="p.color" class="font-extrabold">({{ p.pct }}%)</tspan>
+                      </text>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Consolidated Modules Summary Data Table -->
+              <div class="bg-paho-card border border-paho-grid p-8 space-y-6">
+                <div class="border-b border-paho-grid pb-4">
+                  <h3 class="text-base font-bold text-paho-very-dark-blue">Consolidado por Módulos (WASH)</h3>
+                  <p class="text-xs text-paho-gray-medium mt-1">Resumen cuantitativo del progreso y puntajes de cumplimiento de los módulos.</p>
+                </div>
+
+                <div class="overflow-x-auto bg-white border border-paho-grid">
+                  <table class="w-full text-left border-collapse">
+                    <thead>
+                      <tr class="border-b border-paho-grid text-[10px] font-extrabold uppercase tracking-wider text-paho-gray-medium">
+                        <th class="py-2.5 px-4 bg-paho-card">Módulo</th>
+                        <th class="py-2.5 text-center bg-paho-card">Indicadores</th>
+                        <th class="py-2.5 text-center bg-paho-card">Evaluados</th>
+                        <th class="py-2.5 text-center bg-paho-card">Puntos Logrados</th>
+                        <th class="py-2.5 text-right px-4 bg-paho-card">Porcentaje (%)</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-paho-grid text-xs">
+                      <tr v-for="mod in modulesList" :key="mod.id" class="hover:bg-paho-card">
+                        <td class="py-3.5 px-4 font-bold text-paho-very-dark-blue flex items-center gap-2">
+                          <span class="w-2.5 h-2.5 rounded-full" :class="mod.color"></span>
+                          <span>{{ mod.name }}</span>
+                        </td>
+                        <td class="py-3.5 text-center font-semibold text-paho-gray-dark">{{ getModuleTotalCount(mod.name) }}</td>
+                        <td class="py-3.5 text-center font-semibold text-paho-gray-dark">{{ getModuleAnsweredCount(mod.name) }}</td>
+                        <td class="py-3.5 text-center font-bold text-paho-very-dark-blue">{{ getModuleScoreAchieved(mod.name) }} / {{ getModuleAnsweredCount(mod.name) * 2 }}</td>
+                        <td class="py-3.5 text-right px-4 font-extrabold text-paho-dark-blue">{{ getModulePercentage(mod.name) }}%</td>
+                      </tr>
+                      <tr class="bg-paho-card font-bold text-paho-very-dark-blue border-t-2 border-paho-grid">
+                        <td class="py-4 px-4">TOTAL</td>
+                        <td class="py-4 text-center">{{ indicators.length }}</td>
+                        <td class="py-4 text-center">{{ answeredCount }}</td>
+                        <td class="py-4 text-center">{{ totalScoreAchieved }} / {{ answeredCount * 2 }}</td>
+                        <td class="py-4 text-right px-4 text-paho-dark-blue font-extrabold">{{ overallCompliance }}%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- VALORACIÓN GLOBAL DEL ESTABLECIMIENTO -->
+              <div class="bg-paho-card border border-paho-grid p-8 space-y-6">
+                <div class="border-b border-paho-grid pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                  <div>
+                    <h3 class="text-base font-bold text-paho-very-dark-blue">Valoración Global del Establecimiento</h3>
+                    <p class="text-xs text-paho-gray-medium mt-1">Nivel de desempeño alcanzado según el porcentaje de cumplimiento general.</p>
+                  </div>
+                  <div class="px-3 py-1.5 bg-paho-dark-blue text-white text-xs font-bold rounded-none w-fit">
+                    Cumplimiento General: {{ overallCompliance }}%
+                  </div>
+                </div>
+
+                <div class="overflow-x-auto bg-white border border-paho-grid">
+                  <table class="w-full text-left border-collapse">
+                    <thead>
+                      <tr class="border-b border-paho-grid text-[10px] font-extrabold uppercase tracking-wider text-paho-gray-medium bg-paho-card">
+                        <th class="py-3 px-4 w-44">Puntaje</th>
+                        <th class="py-3 px-4 w-52">Clasificación</th>
+                        <th class="py-3 px-4">Descripción / Recomendación</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-paho-grid text-xs">
+                      
+                      <!-- RANGO 1: Más del 75% -->
+                      <tr :class="[
+                        'transition-all duration-300', 
+                        overallCompliance > 75 
+                          ? 'bg-emerald-100/80 text-emerald-950 font-medium border-l-4 border-l-emerald-600 shadow-sm' 
+                          : 'text-paho-gray-dark opacity-50'
+                      ]">
+                        <td class="py-4 px-4 font-bold whitespace-nowrap">
+                          <div class="flex items-center gap-2">
+                            <span v-if="overallCompliance > 75" class="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                            <span>Más del 75%</span>
+                          </div>
+                        </td>
+                        <td class="py-4 px-4 font-extrabold uppercase tracking-wider" :class="overallCompliance > 75 ? 'text-emerald-900' : ''">
+                          Mejora avanzada
+                        </td>
+                        <td class="py-4 px-4 leading-relaxed text-justify">
+                          El establecimiento avanza adecuadamente y debe mantener las acciones implementadas, así como incorporar las acciones del plan de mejora para cumplir los estándares de calidad de la atención sanitaria.
+                        </td>
+                      </tr>
+
+                      <!-- RANGO 2: Entre 60% y 75% -->
+                      <tr :class="[
+                        'transition-all duration-300', 
+                        overallCompliance >= 60 && overallCompliance <= 75 
+                          ? 'bg-amber-100/80 text-amber-950 font-medium border-l-4 border-l-amber-600 shadow-sm' 
+                          : 'text-paho-gray-dark opacity-50'
+                      ]">
+                        <td class="py-4 px-4 font-bold whitespace-nowrap">
+                          <div class="flex items-center gap-2">
+                            <span v-if="overallCompliance >= 60 && overallCompliance <= 75" class="w-2.5 h-2.5 rounded-full bg-amber-600 animate-pulse"></span>
+                            <span>Entre el 60% y el 75%</span>
+                          </div>
+                        </td>
+                        <td class="py-4 px-4 font-extrabold uppercase tracking-wider" :class="overallCompliance >= 60 && overallCompliance <= 75 ? 'text-amber-900' : ''">
+                          En proceso de mejora
+                        </td>
+                        <td class="py-4 px-4 leading-relaxed text-justify">
+                          El establecimiento necesita dedicar más esfuerzo y mantenimiento cotidiano de los servicios para mejorar la calidad de la atención sanitaria.
+                        </td>
+                      </tr>
+
+                      <!-- RANGO 3: Menos del 60% -->
+                      <tr :class="[
+                        'transition-all duration-300', 
+                        overallCompliance < 60 
+                          ? 'bg-rose-100/80 text-rose-950 font-medium border-l-4 border-l-rose-600 shadow-sm' 
+                          : 'text-paho-gray-dark opacity-50'
+                      ]">
+                        <td class="py-4 px-4 font-bold whitespace-nowrap">
+                          <div class="flex items-center gap-2">
+                            <span v-if="overallCompliance < 60" class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-pulse"></span>
+                            <span>Menos del 60%</span>
+                          </div>
+                        </td>
+                        <td class="py-4 px-4 font-extrabold uppercase tracking-wider" :class="overallCompliance < 60 ? 'text-rose-900' : ''">
+                          Requiere mejoras prioritarias
+                        </td>
+                        <td class="py-4 px-4 leading-relaxed text-justify">
+                          El establecimiento necesita hacer un gran esfuerzo e invertir muchos recursos para mejorar la calidad de la atención sanitaria.
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- JMP Service Ladders Status Section -->
+              <div class="bg-paho-card border border-paho-grid p-8 space-y-6">
+                <div class="border-b border-paho-grid pb-4">
+                  <h3 class="text-base font-bold text-paho-very-dark-blue">Estado de las Escaleras de Servicio JMP (OMS/UNICEF) - Consolidado de los 5 Módulos</h3>
+                  <p class="text-xs text-paho-gray-medium mt-1">Estatus calculado en base a las reglas y directrices de monitoreo de las Naciones Unidas para Agua, Saneamiento, Residuos, Higiene de Manos y Limpieza.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                  <div class="p-5 border border-paho-grid bg-white flex flex-col justify-between">
+                    <div>
+                      <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-extrabold text-paho-gray-medium uppercase">JMP Agua</span>
+                        <i data-lucide="droplet" class="w-4 h-4 text-paho-blue"></i>
+                      </div>
+                      <span class="block text-sm font-bold text-paho-very-dark-blue">Servicio de Agua</span>
+                      <p class="text-[11px] text-paho-gray-dark mt-1 text-justify">Requiere fuente de agua mejorada y abastecimiento suficiente dentro de la instalación.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-paho-grid">
+                      <span :class="['px-2.5 py-1 text-xs font-extrabold rounded-none inline-block border', jmpCalculatedStatus.water.class]">
+                        {{ jmpCalculatedStatus.water.status }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="p-5 border border-paho-grid bg-white flex flex-col justify-between">
+                    <div>
+                      <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-extrabold text-paho-gray-medium uppercase">JMP Saneamiento</span>
+                        <i data-lucide="wind" class="w-4 h-4 text-emerald-600"></i>
+                      </div>
+                      <span class="block text-sm font-bold text-paho-very-dark-blue">Saneamiento</span>
+                      <p class="text-[11px] text-paho-gray-dark mt-1 text-justify">Disponibilidad de baños mejorados y seguros para pacientes y personal.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-paho-grid">
+                      <span :class="['px-2.5 py-1 text-xs font-extrabold rounded-none inline-block border', jmpCalculatedStatus.sanitation.class]">
+                        {{ jmpCalculatedStatus.sanitation.status }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="p-5 border border-paho-grid bg-white flex flex-col justify-between">
+                    <div>
+                      <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-extrabold text-paho-gray-medium uppercase">JMP Residuos</span>
+                        <i data-lucide="trash-2" class="w-4 h-4 text-amber-600"></i>
+                      </div>
+                      <span class="block text-sm font-bold text-paho-very-dark-blue">Residuos</span>
+                      <p class="text-[11px] text-paho-gray-dark mt-1 text-justify">Segregación correcta de 3 contenedores y eliminación segura de cortopunzantes.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-paho-grid">
+                      <span :class="['px-2.5 py-1 text-xs font-extrabold rounded-none inline-block border', jmpCalculatedStatus.waste.class]">
+                        {{ jmpCalculatedStatus.waste.status }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="p-5 border border-paho-grid bg-white flex flex-col justify-between">
+                    <div>
+                      <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-extrabold text-paho-gray-medium uppercase">JMP Higiene</span>
+                        <i data-lucide="hand" class="w-4 h-4 text-purple-600"></i>
+                      </div>
+                      <span class="block text-sm font-bold text-paho-very-dark-blue">Higiene de Manos</span>
+                      <p class="text-[11px] text-paho-gray-dark mt-1 text-justify">Estaciones de lavado activas con agua, jabón o desinfectantes de alcohol.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-paho-grid">
+                      <span :class="['px-2.5 py-1 text-xs font-extrabold rounded-none inline-block border', jmpCalculatedStatus.hygiene.class]">
+                        {{ jmpCalculatedStatus.hygiene.status }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="p-5 border border-paho-grid bg-white flex flex-col justify-between">
+                    <div>
+                      <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-extrabold text-paho-gray-medium uppercase">JMP Limpieza</span>
+                        <i data-lucide="sparkles" class="w-4 h-4 text-teal-600"></i>
+                      </div>
+                      <span class="block text-sm font-bold text-paho-very-dark-blue">Limpieza Hospitalaria</span>
+                      <p class="text-[11px] text-paho-gray-dark mt-1 text-justify">Protocolos de higiene ejecutados y personal técnico debidamente capacitado.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-paho-grid">
+                      <span :class="['px-2.5 py-1 text-xs font-extrabold rounded-none inline-block border', jmpCalculatedStatus.cleaning.class]">
+                        {{ jmpCalculatedStatus.cleaning.status }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Scripts de datos e interacción -->
+  <script src="js/data/indicators.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
