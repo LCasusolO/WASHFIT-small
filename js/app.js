@@ -60,13 +60,11 @@ createApp({
       sanitationSystem: null,
       selectedS9Option: null,
       evaluationDate: new Date().toISOString().substr(0, 10),
-      summary: 'La instalación cuenta con un buen suministro primario, sin embargo, se identificaron vulnerabilidades severas en segregación de residuos hospitalarios y falta de estaciones móviles de higiene de manos en salas de hospitalización de ginecología.',
+      summary: '',
       team: [
-        { name: 'Dra. Elena Rostova', role: 'Directora de Epidemiología', institution: 'MINSA', responsibility: 'Coordinador WASH', email: 'elena.rostova@minsa.gob.pe', isEditing: false },
-        { name: 'Lic. Juan Carlos Marín', role: 'Jefe de Infraestructura', institution: 'MINSA', responsibility: 'Monitoreo de Energía y Agua', email: 'jmarin@minsa.gob.pe', isEditing: false }
+        { name: 'Dra. Elena Rostova', role: 'Directora de Epidemiología', institution: 'MINSA', responsibility: 'Coordinador WASH', email: 'elena.rostova@minsa.gob.pe', isEditing: false }
       ],
       photos: [
-        { name: 'evidencia_agua_filtro.png', url: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=200' }
       ]
     });
 
@@ -593,13 +591,8 @@ createApp({
         }
       }
 
+      // CÓDIGO CORREGIDO
       if (score === 0 || score === 1) {
-        if (!ind.problemDesc) {
-          ind.problemDesc = `Se detectó incumplimiento parcial/total en el indicador ${ind.code}: ${ind.title}.`;
-        }
-        if (!ind.associatedRisks) {
-          ind.associatedRisks = `Riesgos potenciales sobre la salud de los pacientes, seguridad clínica y la equidad del servicio.`;
-        }
         if (ind.severity === undefined) ind.severity = null;
         if (ind.likelihood === undefined) ind.likelihood = null;
       }
