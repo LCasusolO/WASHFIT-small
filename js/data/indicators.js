@@ -23,7 +23,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -46,7 +45,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -69,7 +67,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -92,7 +89,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -115,7 +111,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -138,7 +133,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -161,7 +155,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -184,7 +177,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -207,7 +199,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -230,7 +221,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -253,7 +243,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -276,7 +265,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
 
@@ -296,7 +284,7 @@ const INDICATORS_DATA = [
     eval2: 'Existe un número suficiente de inodoros y todos funcionan. Hay dos o más retretes mejorados para pacientes externos más uno por cada 20 usuarios/pacientes ingresados.', 
     eval1: 'Se cumple el requisito para los pacientes externos o los pacientes ingresados, pero no para ambos.', 
     eval0: 'Ni los pacientes ingresados ni los pacientes externos disponen de un número suficiente de retretes o los retretes existentes no están mejorados.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_2', 
@@ -311,7 +299,7 @@ const INDICATORS_DATA = [
     eval2: 'Dos o más inodoros para pacientes ambulatorios más uno por cada 20 usuarios/pacientes hospitalizados.', 
     eval1: 'Se cumple el requisito para los pacientes ambulatorios o para los pacientes hospitalizados, pero no para ambos.', 
     eval0: 'No existe un número suficiente de inodoros ni para pacientes hospitalizados ni para pacientes ambulatorios.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_3', 
@@ -326,7 +314,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, existen estaciones para la higiene de las manos en número suficiente y todas funcionan.', 
     eval1: 'Más del 50% de los inodoros tienen estaciones de higiene de las manos que funcionan en un radio de 5 metros.', 
     eval0: 'Menos del 50% de los inodoros tienen estaciones de higiene de las manos que funcionan en un radio de 5 metros.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_4', 
@@ -341,7 +329,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, existe por lo menos un inodoro para uso del personal.', 
     eval1: 'Sí existe, pero no está claramente separado.', 
     eval0: 'No existen inodoros separados para el personal.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_5', 
@@ -356,7 +344,7 @@ const INDICATORS_DATA = [
     eval2: 'Todos los inodoros están claramente separados y, si son mixtos, dan privacidad a usuarias femeninas.', 
     eval1: 'Algunos inodoros, pero no todos, están claramente separados.', 
     eval0: 'Los inodoros no están separados y no brindan privacidad.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_6', 
@@ -371,7 +359,7 @@ const INDICATORS_DATA = [
     eval2: 'Existen uno o más inodoros con artículos para mujeres que están menstruando.', 
     eval1: 'Existe un espacio para que las mujeres se laven, pero no dispone de agua; el inodoro no está limpio, está en mal estado, o el cubo de basura está lleno.', 
     eval0: 'No existen inodoros con artículos para mujeres que están menstruando.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_7', 
@@ -386,7 +374,7 @@ const INDICATORS_DATA = [
     eval2: 'Existen uno o más inodoros que funcionan para personas con movilidad reducida.', 
     eval1: 'El inodoro cubre las necesidades de personas con movilidad reducida pero no funciona.', 
     eval0: 'No existen inodoros para usuarios con discapacidades.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_8', 
@@ -401,7 +389,7 @@ const INDICATORS_DATA = [
     eval2: 'La inspección visual del contenedor y el drenaje muestra integridad estructural, ausencia de fugas o daños, y los operadores informan que no hay fugas.', 
     eval1: 'No se pudo determinar la contención a partir de una inspección visual y/o los operadores informan fugas estacionales.', 
     eval0: 'Las inspecciones indican daños al contenedor, formación de charcos o descarga de efluentes líquidos a drenes abiertos o suelo abierto.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_9a', 
@@ -416,7 +404,7 @@ const INDICATORS_DATA = [
     eval2: 'Los planos de construcción y operadores confirman conexión al alcantarillado sin desbordes en el predio ni en la comunidad.', 
     eval1: 'No fue posible determinarlo con precisión.', 
     eval0: 'Se reportan fugas o desbordes frecuentes en el terreno del establecimiento o en la red comunitaria.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_9b', 
@@ -431,7 +419,7 @@ const INDICATORS_DATA = [
     eval2: 'El contenedor fue vaciado dentro de los últimos 5 años (o según programa) por personal con EPP y se transportó a tratamiento o se enterró de forma segura.', 
     eval1: 'No fue posible determinar la frecuencia de vaciado ni el destino final de los residuos fecales.', 
     eval0: 'Nunca se ha vaciado, o se realiza una disposición final insegura y sin tratamiento directo en el entorno local.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_10', 
@@ -446,7 +434,7 @@ const INDICATORS_DATA = [
     eval2: 'Existe una planta de tratamiento de aguas residuales bien diseñada con un registro disponible públicamente que cumple las normas de rendimiento locales/nacionales.', 
     eval1: 'Existe una planta de tratamiento de aguas residuales en funcionamiento, pero su rendimiento es poco claro o no cumple con las normas.', 
     eval0: 'No existe o no funciona una planta de tratamiento de aguas residuales.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_11', 
@@ -461,7 +449,7 @@ const INDICATORS_DATA = [
     eval2: 'Existe un sistema de drenaje, funciona (no está bloqueado) y desvía las aguas satisfactoriamente.', 
     eval1: 'Existe un sistema de drenaje pero no es suficiente para el volumen de aguas residuales, o está obstruido.', 
     eval0: 'No existe ningún sistema de drenaje en el establecimiento.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_12', 
@@ -476,7 +464,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, se captan y se reutilizan las aguas grises y pluviales para diversas finalidades.', 
     eval1: 'Existe un sistema para captar aguas grises o pluviales, pero no se utiliza a todo su potencial.', 
     eval0: 'No existe ningún sistema para la captación o reutilización de aguas grises o pluviales.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'S_13', 
@@ -491,7 +479,7 @@ const INDICATORS_DATA = [
     eval2: 'Las aguas grises se recogen de forma segura y tienen tuberías separadas.', 
     eval1: 'El sistema de aguas grises recoge el agua pero existe cierto riesgo de contaminación por conexiones cruzadas.', 
     eval0: 'No existe un sistema de aguas grises separado en el establecimiento.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
 
   // ==========================================
@@ -510,7 +498,7 @@ const INDICATORS_DATA = [
     eval2: 'En todo el establecimiento se arrojan los diferentes residuos en los recipientes correspondientes.', 
     eval1: 'En más del 75% de los recipientes se arrojan los residuos correspondientes.', 
     eval0: 'En menos del 75% de los recipientes se arrojan los residuos correspondientes.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_2', 
@@ -525,7 +513,7 @@ const INDICATORS_DATA = [
     eval2: 'Existe un sistema funcional de 3 recipientes para separar los residuos en todos los lugares donde se generan.', 
     eval1: 'Existen recipientes para residuos pero no en todos los lugares donde se generan.', 
     eval0: 'No existen recipientes ni se eliminan por separado los objetos punzocortantes.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_3', 
@@ -540,7 +528,7 @@ const INDICATORS_DATA = [
     eval2: 'Los contenedores de residuos punzocortantes o las bolsas de residuos se llenan hasta el 75% de su capacidad.', 
     eval1: 'Los contenedores de residuos punzocortantes o las bolsas de residuos se llenan más del 75-80% de su capacidad.', 
     eval0: 'Los contenedores de residuos punzocortantes o las bolsas de residuos rebasan la capacidad.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_4', 
@@ -555,7 +543,7 @@ const INDICATORS_DATA = [
     eval2: 'Los residuos biológicos infecciosos se recogen en carritos o en bolsas cerradas transportadas sin arrastrar.', 
     eval1: 'Los residuos biológicos infecciosos se recogen algunas veces de forma correcta.', 
     eval0: 'Los residuos biológicos infecciosos se recogen en bolsas que son arrastradas hasta el almacén temporal de residuos peligrosos.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_5', 
@@ -570,7 +558,7 @@ const INDICATORS_DATA = [
     eval2: 'Se retira toda la bolsa al contenedor sin comprimirse o perforarse.', 
     eval1: 'Se vacían los residuos al contenedor conservando la bolsa en el servicio, comprimiendo o perforando la bolsa.', 
     eval0: 'Se vacía de una bolsa a otra, se comprime y se perfora.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_6', 
@@ -585,7 +573,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, se cuenta con ruta de recolección interna por tipo de residuos para todas las zonas.', 
     eval1: 'Se cuenta con ruta de recolección pero no en todas las zonas.', 
     eval0: 'No se cuenta con ninguna ruta de recolección interna.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_7', 
@@ -600,7 +588,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, se realiza el lavado diario de los carritos.', 
     eval1: 'Se realiza el lavado de los carritos cada semana.', 
     eval0: 'Se realiza el lavado de los carritos una vez al mes o nunca se lavan.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_8', 
@@ -615,7 +603,7 @@ const INDICATORS_DATA = [
     eval2: 'Se dispone de una zona dedicada exclusivamente para almacenamiento de residuos por separado y con capacidad suficiente.', 
     eval1: 'Se dispone de una zona dedicada de almacenamiento de residuos, pero no tiene capacidad suficiente para almacenar por separado los residuos.', 
     eval0: 'No se dispone de ninguna zona para almacenar residuos, los residuos se colocan en el piso y a la intemperie.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_9', 
@@ -630,7 +618,7 @@ const INDICATORS_DATA = [
     eval2: 'Se dispone de almacén temporal de residuos con todas las características de hermeticidad e higiene indicadas.', 
     eval1: 'Se dispone de almacén temporal pero no cumple con la totalidad de las condiciones establecidas.', 
     eval0: 'El almacén temporal no cumple con ninguna de las condiciones de seguridad establecidas.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_10', 
@@ -645,7 +633,7 @@ const INDICATORS_DATA = [
     eval2: 'Los residuos infecciosos son tratados y eliminados dentro de los plazos climáticos de seguridad.', 
     eval1: 'Son tratados entre 24 y 48 horas fuera del estándar ideal térmico.', 
     eval0: 'Son tratados después de 48 horas o no reciben tratamiento seguro.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_11', 
@@ -660,7 +648,7 @@ const INDICATORS_DATA = [
     eval2: 'El almacén temporal de residuos tiene fácil acceso para los camiones recolectores de residuos y para la maniobra de los contenedores.', 
     eval1: 'El almacén temporal de residuos tiene fácil acceso para los camiones recolectores, pero no cuenta con espacio para maniobrar los contenedores.', 
     eval0: 'El almacén temporal de residuos no tiene acceso para los camiones recolectores o espacio para maniobrar los contenedores.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_12', 
@@ -675,7 +663,7 @@ const INDICATORS_DATA = [
     eval2: 'Se cuenta con registro diario del peso de los residuos que ingresan al almacén temporal.', 
     eval1: 'Se cuenta con registro de la cantidad de bolsas de residuos que ingresan al almacén, pero no se registra el peso.', 
     eval0: 'No se cuenta con ningún tipo de registro.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_13', 
@@ -690,7 +678,7 @@ const INDICATORS_DATA = [
     eval2: 'Todos los residuos farmacéuticos son tratados y eliminados con seguridad.', 
     eval1: 'Algunos, pero no todos los residuos farmacéuticos, son eliminados adecuadamente.', 
     eval0: 'Los residuos farmacéuticos no son tratados ni se eliminan con medidas de seguridad.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_14', 
@@ -705,7 +693,7 @@ const INDICATORS_DATA = [
     eval2: 'Se recolectan y tratan con autoclave con triturador, microondas con triturador o incineración de doble cámara.', 
     eval1: 'Se recolectan y tratan con autoclave sin triturador, microondas sin triturador o incineración de cámara simple.', 
     eval0: 'Quema a cielo abierto, botadero sin tratamiento, enterramiento inseguro o mezcla con residuos comunes.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'RES_15', 
@@ -720,7 +708,7 @@ const INDICATORS_DATA = [
     eval2: 'Todo el personal que maneja residuos tiene EPP adecuado y suficiente en todo momento.', 
     eval1: 'Algunos, pero no todos tienen EPP completo, o existe EPP pero está en mal estado.', 
     eval0: 'No se dispone de EPP en el establecimiento.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
 
   // ==========================================
@@ -739,7 +727,7 @@ const INDICATORS_DATA = [
     eval2: 'Todos los puntos de atención tienen puntos para la higiene de las manos que funcionan (con agua y jabón o con un gel hidroalcohólico).', 
     eval1: 'Por lo menos en 75% de los lugares de atención cuentan con puntos para la higiene de las manos en funcionamiento.', 
     eval0: 'En menos de 75% de los lugares de atención cuentan con puntos para la higiene de las manos en funcionamiento.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'H_2', 
@@ -754,7 +742,7 @@ const INDICATORS_DATA = [
     eval2: 'Existen estaciones en buen funcionamiento en todas las áreas.', 
     eval1: 'Existen estaciones que funcionan para la higiene de las manos en algunas áreas pero no en todas.', 
     eval0: 'No existen estaciones para el lavado de las manos.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'H_3', 
@@ -769,7 +757,7 @@ const INDICATORS_DATA = [
     eval2: 'El material está claramente expuesto en todas las salas/zonas de tratamiento.', 
     eval1: 'El material está expuesto en algunas salas/zonas de tratamiento, pero no en todas.', 
     eval0: 'No se dispone de material de promoción de la higiene de manos.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'H_4', 
@@ -784,7 +772,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, se realizan periódicamente (al menos anualmente) actividades de cumplimiento en todo el establecimiento.', 
     eval1: 'En la política se prevén actividades de cumplimiento, pero no se realizan con ninguna regularidad.', 
     eval0: 'No, no se realiza ninguna actividad de verificación del cumplimiento.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
   { 
     id: 'H_5', 
@@ -799,7 +787,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí se realizan inspecciones periódicas al menos cada tres meses.', 
     eval1: 'Se realizan inspecciones/auditorías (al menos anualmente) de las distintas salas o se realizan evaluaciones incompletas.', 
     eval0: 'No se realizan inspecciones.', 
-    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, revisionNotes: '' 
   },
 
   // ==========================================
@@ -825,7 +813,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -848,7 +835,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -871,7 +857,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -894,7 +879,6 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
   { 
@@ -917,14 +901,14 @@ const INDICATORS_DATA = [
     resources: '', 
     responsible: '', 
     cost: null, 
-    trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   }
 ].map(ind => ({
   // Campos por defecto del Paso 5 (Monitoreo y Revisión)
-  indicatorChange: 'sin_cambios',
+  indicatorChange: '',
   correctiveMeasures: '',
   nextReviewDate: '',
   monitoringComments: '',
+  trackingStatus: '', 
   ...ind
 }));
