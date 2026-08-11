@@ -1,7 +1,7 @@
 // Datos de indicadores WASH-FIT actualizados según la nueva matriz de estándares (2026)
 const INDICATORS_DATA = [
   // ==========================================
-  // 💧 MÓDULO: AGUA (Mantenido de la actualización anterior)
+  // 💧 MÓDULO: AGUA
   // ==========================================
   { 
     id: 'A_1', 
@@ -9,15 +9,13 @@ const INDICATORS_DATA = [
     module: 'Agua', 
     title: 'Abastecimiento mejorado de agua corriente en el establecimiento o en el predio', 
     desc: 'Se dispone de un abastecimiento de agua mejorado, canalizado hasta el interior del establecimiento o ubicado en las instalaciones', 
-    guidance: 'El Programa Conjunto OMS/UNICEF de Monitoreo define los suministros de agua mejorados como aquellos que, por la naturaleza de su diseño y construcción, tienen el potencial de suministrar agua potable. Algunos ejemplos son: agua corriente, grifos públicos o grifos verticales; pozos excavados protegidos; pozos entubados; o pozos de sondeo, agua de lluvia y agua envasada o suministrada. Tanto el verde como el amarillo contarían como servicio básico de agua, si también se dispone de agua, es decir, W_3b es amarillo o verde).', 
+    guidance: 'El Programa Conjunto OMS/UNICEF de Monitoreo define los suministros de agua mejorados como aquellos que, por la naturaleza de su diseño y construcción, tienen el potencial de suministrar agua potable. Algunos ejemplos son: agua corriente, grifos públicos o grifos verticales; pozos excavados protegidos; pozos entubados; o pozos de sondeo, agua de lluvia y agua envasada o suministrada. Tanto el verde como el amarillo contarían como servicio básico de agua, si también se dispone de agua.', 
     jmp: true, 
     score: null, 
     notes: '', 
     eval2: 'Sí, se dispone de un abastecimiento mejorado de agua dentro del establecimiento.', 
     eval1: 'Abastecimiento mejorado de agua en el predio (pero fuera del edificio del establecimiento).', 
     eval0: 'No existe una fuente mejorada de agua dentro del predio del establecimiento, o sí existe pero no está disponible.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -41,8 +39,6 @@ const INDICATORS_DATA = [
     eval2: 'Sí, todos están conectados y en funcionamiento.', 
     eval1: 'Más de la mitad de los grifos están conectados y en funcionamiento.', 
     eval0: 'Menos de la mitad de los grifos están conectados y en funcionamiento.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -66,8 +62,6 @@ const INDICATORS_DATA = [
     eval2: 'El agua está disponible 7 días a la semana, todo el día, todos los días.', 
     eval1: 'El agua está disponible 4 días a la semana y/o no todo el día.', 
     eval0: 'El agua está disponible menos de 4 días a la semana y/o no está disponible más de la mitad del día.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -91,8 +85,6 @@ const INDICATORS_DATA = [
     eval2: 'Disponibilidad de agua durante todo el año.', 
     eval1: 'Escasez de agua durante uno o dos meses.', 
     eval0: 'Escasez de agua durante tres meses o más.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -116,8 +108,6 @@ const INDICATORS_DATA = [
     eval2: 'En los últimos 3 meses el sistema principal de suministro de agua no ha tenido averías o las averías se repararon en 48 horas.', 
     eval1: 'El sistema de suministro de agua tuvo averías, pero se repararon en una semana.', 
     eval0: 'El sistema de suministro de agua tuvo averías que tardaron más de una semana en repararse o quedaron sin reparar.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -141,8 +131,6 @@ const INDICATORS_DATA = [
     eval2: 'Se identificaron buenas fuentes adicionales disponibles y suficientes.', 
     eval1: 'Se identificaron fuentes adicionales, pero no son buenas, no están disponibles o no son suficientes.', 
     eval0: 'No se encontraron fuentes adicionales.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -165,9 +153,7 @@ const INDICATORS_DATA = [
     notes: '', 
     eval2: 'El abastecimiento de agua es suficiente para todos los usos en todo el establecimiento.', 
     eval1: 'Existe cantidad suficiente para el 75% de las necesidades (para todas las salas y usos).', 
-    eval0: 'La cantidad de agua covers menos del 75% de las necesidades.', 
-    severity: 3, 
-    likelihood: 3, 
+    eval0: 'La cantidad de agua cubre menos del 75% de las necesidades.', 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -191,8 +177,6 @@ const INDICATORS_DATA = [
     eval2: 'Se dispone de almacenamiento de agua, el agua está protegida y es suficiente para las necesidades de dos días.', 
     eval1: 'Es adecuado para dos días pero no se considera seguro o sólo cubre el 75% de las necesidades.', 
     eval0: 'Cubre menos del 75% de las necesidades y/o no se considera seguro.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -216,8 +200,6 @@ const INDICATORS_DATA = [
     eval2: 'Existen sistemas de recogida de aguas pluviales en funcionamiento con almacenamiento seguro.', 
     eval1: 'Existen sistemas de recogida de aguas pluviales, pero el almacenamiento no es seguro ni suficiente o se producen fugas.', 
     eval0: 'No se utiliza ningún sistema de recogida de aguas pluviales (aunque pueda disponerse de agua de lluvia).', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -234,15 +216,13 @@ const INDICATORS_DATA = [
     module: 'Agua', 
     title: 'Se utilizan estrategias de ahorro de agua para reducir el desperdicio de agua', 
     desc: 'Ahorro del Agua', 
-    guidance: 'Incluye el uso de grifos de alta eficiencia, lavadoras de bajo consumo, reparación del fugas el mismo día, análisis de consumo con medidores y reciclaje de aguas grises o pluviales para inodoros o riego exterior.', 
+    guidance: 'Incluye el uso de grifos de alta eficiencia, lavadoras de bajo consumo, reparación de fugas el mismo día, análisis de consumo con medidores y reciclaje de aguas grises o pluviales para inodoros o riego exterior.', 
     jmp: false, 
     score: null, 
     notes: '', 
     eval2: 'Se utilizan estrategias de reducción del gasto de agua de forma efectiva y se evita el desperdicio de agua.', 
     eval1: 'Se utilizan estrategias de reducción del gasto de agua, pero sigue existiendo un cierto desperdicio de agua que podría evitarse (ej. fuga aislada).', 
     eval0: 'No se utilizan estrategias de reducción del gasto de agua (ej. fugas múltiples activas).', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -263,11 +243,9 @@ const INDICATORS_DATA = [
     jmp: false, 
     score: null, 
     notes: '', 
-    eval2: 'Sí, se dispone de agua potable and satisface todos los criterios.', 
+    eval2: 'Sí, se dispone de agua potable y satisface todos los criterios.', 
     eval1: 'El agua tiene cloro residual, pero < 0.2 mg/L.', 
     eval0: 'No se trata el agua / presencia de E. coli / sin capacidad para analizar cloro residual / no se dispone de agua potable.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -291,8 +269,6 @@ const INDICATORS_DATA = [
     eval2: 'Sí, es tratada regularmente y con una tecnología comprobada.', 
     eval1: 'El agua es tratada, pero no regularmente.', 
     eval0: 'El agua no es tratada o es tratada con una tecnología que no cumple con las normas de la OMS.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -305,7 +281,7 @@ const INDICATORS_DATA = [
   },
 
   // ==========================================
-  // 🚽 MÓDULO: SANEAMIENTO (S_1 a S_13)
+  // 🚽 MÓDULO: SANEAMIENTO
   // ==========================================
   { 
     id: 'S_1', 
@@ -320,14 +296,14 @@ const INDICATORS_DATA = [
     eval2: 'Existe un número suficiente de inodoros y todos funcionan. Hay dos o más retretes mejorados para pacientes externos más uno por cada 20 usuarios/pacientes ingresados.', 
     eval1: 'Se cumple el requisito para los pacientes externos o los pacientes ingresados, pero no para ambos.', 
     eval0: 'Ni los pacientes ingresados ni los pacientes externos disponen de un número suficiente de retretes o los retretes existentes no están mejorados.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_2', 
     code: 'S_2', 
     module: 'Saneamiento', 
     title: 'El establecimiento tiene un número suficiente de inodoros disponibles y utilizables para los pacientes', 
-    desc: 'Inodoros • JMP Saneamiento Básico', 
+    desc: 'Inodoros • JMP Servicios Básicos', 
     guidance: 'El retrete/letrina debe tener puerta con cerrojo interno para privacidad, fosa no obstruida, agua disponible para la cisterna y ausencia de suciedad, residuos o excretas visibles. En zonas inundables, se sugieren diseños de alta eficiencia bajos en agua o secos.', 
     jmp: true, 
     score: null, 
@@ -335,14 +311,14 @@ const INDICATORS_DATA = [
     eval2: 'Dos o más inodoros para pacientes ambulatorios más uno por cada 20 usuarios/pacientes hospitalizados.', 
     eval1: 'Se cumple el requisito para los pacientes ambulatorios o para los pacientes hospitalizados, pero no para ambos.', 
     eval0: 'No existe un número suficiente de inodoros ni para pacientes hospitalizados ni para pacientes ambulatorios.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_3', 
     code: 'S_3', 
     module: 'Saneamiento', 
     title: 'Todos los inodoros tienen una estación que funciona para el lavado de las manos en un radio de 5 metros', 
-    desc: 'Inodoros • JMP Servicio Básicos de Higiene', 
+    desc: 'Inodoros • JMP Servicios Básicos de Higiene', 
     guidance: 'La estación de higiene de manos en los inodoros debe contar obligatoriamente con agua y jabón. El desinfectante a base de alcohol no es suficiente para limpiar materia fecal de las manos. (Indicador clave para higiene básica).', 
     jmp: true, 
     score: null, 
@@ -350,14 +326,14 @@ const INDICATORS_DATA = [
     eval2: 'Sí, existen estaciones para la higiene de las manos en número suficiente y todas funcionan.', 
     eval1: 'Más del 50% de los inodoros tienen estaciones de higiene de las manos que funcionan en un radio de 5 metros.', 
     eval0: 'Menos del 50% de los inodoros tienen estaciones de higiene de las manos que funcionan en un radio de 5 metros.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_4', 
     code: 'S_4', 
     module: 'Saneamiento', 
     title: 'Por lo menos debe disponerse de un inodoro para el personal y los inodoros deben estar claramente separados indicando que son para el personal', 
-    desc: 'Inodoros • JMP Servicio Básicos de Higiene', 
+    desc: 'Inodoros • JMP Servicios Básicos de Higiene', 
     guidance: 'Es preciso disponer de un retrete mejorado diferenciado para el personal a fin de cumplir el requisito de saneamiento básico de acuerdo a los indicadores globales del JMP.', 
     jmp: true, 
     score: null, 
@@ -365,7 +341,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, existe por lo menos un inodoro para uso del personal.', 
     eval1: 'Sí existe, pero no está claramente separado.', 
     eval0: 'No existen inodoros separados para el personal.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_5', 
@@ -380,7 +356,7 @@ const INDICATORS_DATA = [
     eval2: 'Todos los inodoros están claramente separados y, si son mixtos, dan privacidad a usuarias femeninas.', 
     eval1: 'Algunos inodoros, pero no todos, están claramente separados.', 
     eval0: 'Los inodoros no están separados y no brindan privacidad.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_6', 
@@ -388,14 +364,14 @@ const INDICATORS_DATA = [
     module: 'Saneamiento', 
     title: 'Por lo menos existe un inodoro que funciona y que satisface las necesidades de gestión de la higiene menstrual', 
     desc: 'Inodoros • JMP Saneamiento Básico', 
-    guidance: 'Los inodoros deben contar con un cubo para desechar los residuos y un espacio de lavado con agua. Debe haber facilidades cercanas para adquirir toallas sanitarias en el establecimiento.', 
+    guidance: 'Los inodoros deben contar con un cubo para desechar los residuos y un espacio de lavado con agua. Debe haber disponibilidad cercana para adquirir toallas sanitarias en el establecimiento.', 
     jmp: true, 
     score: null, 
     notes: '', 
     eval2: 'Existen uno o más inodoros con artículos para mujeres que están menstruando.', 
     eval1: 'Existe un espacio para que las mujeres se laven, pero no dispone de agua; el inodoro no está limpio, está en mal estado, o el cubo de basura está lleno.', 
     eval0: 'No existen inodoros con artículos para mujeres que están menstruando.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_7', 
@@ -410,7 +386,7 @@ const INDICATORS_DATA = [
     eval2: 'Existen uno o más inodoros que funcionan para personas con movilidad reducida.', 
     eval1: 'El inodoro cubre las necesidades de personas con movilidad reducida pero no funciona.', 
     eval0: 'No existen inodoros para usuarios con discapacidades.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_8', 
@@ -425,7 +401,7 @@ const INDICATORS_DATA = [
     eval2: 'La inspección visual del contenedor y el drenaje muestra integridad estructural, ausencia de fugas o daños, y los operadores informan que no hay fugas.', 
     eval1: 'No se pudo determinar la contención a partir de una inspección visual y/o los operadores informan fugas estacionales.', 
     eval0: 'Las inspecciones indican daños al contenedor, formación de charcos o descarga de efluentes líquidos a drenes abiertos o suelo abierto.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_9a', 
@@ -433,14 +409,14 @@ const INDICATORS_DATA = [
     module: 'Saneamiento', 
     title: 'Los inodoros están conectados sin fugas a un sistema de alcantarillado público (Sistemas con alcantarillado)', 
     desc: 'Gestión de las Aguas Residuales (S_9a ó S_9b).', 
-    guidance: 'Un transporte seguro limita la exposición de operarios y comunidades. Comprende redes subterráneas convencionales por gravedad, alcantarillas simplificadas o alcantarillas sin sólidos con pre-tratamiento.', 
+    guidance: 'Un transporte seguro limits la exposición de operarios y comunidades. Comprende redes subterráneas convencionales por gravedad, alcantarillas simplificadas o alcantarillas sin sólidos con pre-tratamiento.', 
     jmp: false, 
     score: null, 
     notes: '', 
     eval2: 'Los planos de construcción y operadores confirman conexión al alcantarillado sin desbordes en el predio ni en la comunidad.', 
     eval1: 'No fue posible determinarlo con precisión.', 
     eval0: 'Se reportan fugas o desbordes frecuentes en el terreno del establecimiento o en la red comunitaria.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_9b', 
@@ -455,22 +431,22 @@ const INDICATORS_DATA = [
     eval2: 'El contenedor fue vaciado dentro de los últimos 5 años (o según programa) por personal con EPP y se transportó a tratamiento o se enterró de forma segura.', 
     eval1: 'No fue posible determinar la frecuencia de vaciado ni el destino final de los residuos fecales.', 
     eval0: 'Nunca se ha vaciado, o se realiza una disposición final insegura y sin tratamiento directo en el entorno local.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_10', 
     code: 'S_10', 
     module: 'Saneamiento', 
     title: 'La planta de tratamiento de aguas residuales está bien diseñada y gestionada, con registros de funcionamiento disponibles', 
-    desc: 'Gestión de las Aguas Residuales (S_10a ó S_10b).', 
+    desc: 'Gestión de las Aguas Residuales.', 
     guidance: 'El diseño y operación de la planta deben cumplir con los criterios de la guía de saneamiento y salud de la OMS, ofreciendo al menos un tratamiento secundario.', 
     jmp: false, 
     score: null, 
     notes: '', 
     eval2: 'Existe una planta de tratamiento de aguas residuales bien diseñada con un registro disponible públicamente que cumple las normas de rendimiento locales/nacionales.', 
-    eval1: 'Existe una planta de tratamiento de aguas de desecho en funcionamiento, pero su rendimiento es poco claro o no cumple con las normas.', 
+    eval1: 'Existe una planta de tratamiento de aguas residuales en funcionamiento, pero su rendimiento es poco claro o no cumple con las normas.', 
     eval0: 'No existe o no funciona una planta de tratamiento de aguas residuales.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_11', 
@@ -485,7 +461,7 @@ const INDICATORS_DATA = [
     eval2: 'Existe un sistema de drenaje, funciona (no está bloqueado) y desvía las aguas satisfactoriamente.', 
     eval1: 'Existe un sistema de drenaje pero no es suficiente para el volumen de aguas residuales, o está obstruido.', 
     eval0: 'No existe ningún sistema de drenaje en el establecimiento.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_12', 
@@ -500,7 +476,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, se captan y se reutilizan las aguas grises y pluviales para diversas finalidades.', 
     eval1: 'Existe un sistema para captar aguas grises o pluviales, pero no se utiliza a todo su potencial.', 
     eval0: 'No existe ningún sistema para la captación o reutilización de aguas grises o pluviales.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'S_13', 
@@ -515,11 +491,11 @@ const INDICATORS_DATA = [
     eval2: 'Las aguas grises se recogen de forma segura y tienen tuberías separadas.', 
     eval1: 'El sistema de aguas grises recoge el agua pero existe cierto riesgo de contaminación por conexiones cruzadas.', 
     eval0: 'No existe un sistema de aguas grises separado en el establecimiento.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
 
   // ==========================================
-  // ☣️ MÓDULO: RESIDUOS HOSPITALARIOS (RES_1 a RES_15)
+  // ☣️ MÓDULO: RESIDUOS HOSPITALARIOS
   // ==========================================
   { 
     id: 'RES_1', 
@@ -534,7 +510,7 @@ const INDICATORS_DATA = [
     eval2: 'En todo el establecimiento se arrojan los diferentes residuos en los recipientes correspondientes.', 
     eval1: 'En más del 75% de los recipientes se arrojan los residuos correspondientes.', 
     eval0: 'En menos del 75% de los recipientes se arrojan los residuos correspondientes.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_2', 
@@ -549,7 +525,7 @@ const INDICATORS_DATA = [
     eval2: 'Existe un sistema funcional de 3 recipientes para separar los residuos en todos los lugares donde se generan.', 
     eval1: 'Existen recipientes para residuos pero no en todos los lugares donde se generan.', 
     eval0: 'No existen recipientes ni se eliminan por separado los objetos punzocortantes.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_3', 
@@ -564,7 +540,7 @@ const INDICATORS_DATA = [
     eval2: 'Los contenedores de residuos punzocortantes o las bolsas de residuos se llenan hasta el 75% de su capacidad.', 
     eval1: 'Los contenedores de residuos punzocortantes o las bolsas de residuos se llenan más del 75-80% de su capacidad.', 
     eval0: 'Los contenedores de residuos punzocortantes o las bolsas de residuos rebasan la capacidad.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_4', 
@@ -572,14 +548,14 @@ const INDICATORS_DATA = [
     module: 'Residuos Hospitalarios', 
     title: 'Método seguro de recolección interna de los residuos biológicos infecciosos y comunes', 
     desc: 'Recolección interna.', 
-    guidance: 'La forma de realizar la recolección interna de los residuos biológicos infecciosos y comunes es mediante carritos separados en el caso de ES que cuenten con piso y forma accesible de mover los carritos. En los ES en que las condiciones físicas del piso no permitan el uso de carrito, se puede transportar las bolsas de residuos infecciosos y comunes de forma separada, sin arrastrarse, ni pegar al cuerpo la bolsa, teniendo el cuidado de no perforarlas durante la recolección y transporte. En pisos planos se deben usar carritos cerrados y separados. En caso de pisos rústicos o sin accesibilidad, las bolsas deben transportarse sin arrastrar y sin pegar al cuerpo del personal.', 
+    guidance: 'La recolección interna de residuos biológicos infecciosos y comunes se realiza mediante carritos cerrados y diferenciados en establecimientos con pisos planos y accesibles. En áreas con pisos rústicos o sin accesibilidad, las bolsas deben transportarse manualmente sin arrastrarse, sin pegarse al cuerpo del personal y cuidando de no perforarlas.', 
     jmp: false, 
     score: null, 
     notes: '', 
     eval2: 'Los residuos biológicos infecciosos se recogen en carritos o en bolsas cerradas transportadas sin arrastrar.', 
-    eval1: 'Los residuos biológico infecciosos se recogen algunas veces de forma correcta.', 
-    eval0: 'Los residuos biológico infecciosos se recogen en bolsas que son arrastradas hasta el almacén temporal de residuos peligrosos.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    eval1: 'Los residuos biológicos infecciosos se recogen algunas veces de forma correcta.', 
+    eval0: 'Los residuos biológicos infecciosos se recogen en bolsas que son arrastradas hasta el almacén temporal de residuos peligrosos.', 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_5', 
@@ -594,7 +570,7 @@ const INDICATORS_DATA = [
     eval2: 'Se retira toda la bolsa al contenedor sin comprimirse o perforarse.', 
     eval1: 'Se vacían los residuos al contenedor conservando la bolsa en el servicio, comprimiendo o perforando la bolsa.', 
     eval0: 'Se vacía de una bolsa a otra, se comprime y se perfora.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_6', 
@@ -609,7 +585,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, se cuenta con ruta de recolección interna por tipo de residuos para todas las zonas.', 
     eval1: 'Se cuenta con ruta de recolección pero no en todas las zonas.', 
     eval0: 'No se cuenta con ninguna ruta de recolección interna.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_7', 
@@ -624,7 +600,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, se realiza el lavado diario de los carritos.', 
     eval1: 'Se realiza el lavado de los carritos cada semana.', 
     eval0: 'Se realiza el lavado de los carritos una vez al mes o nunca se lavan.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_8', 
@@ -639,7 +615,7 @@ const INDICATORS_DATA = [
     eval2: 'Se dispone de una zona dedicada exclusivamente para almacenamiento de residuos por separado y con capacidad suficiente.', 
     eval1: 'Se dispone de una zona dedicada de almacenamiento de residuos, pero no tiene capacidad suficiente para almacenar por separado los residuos.', 
     eval0: 'No se dispone de ninguna zona para almacenar residuos, los residuos se colocan en el piso y a la intemperie.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_9', 
@@ -654,7 +630,7 @@ const INDICATORS_DATA = [
     eval2: 'Se dispone de almacén temporal de residuos con todas las características de hermeticidad e higiene indicadas.', 
     eval1: 'Se dispone de almacén temporal pero no cumple con la totalidad de las condiciones establecidas.', 
     eval0: 'El almacén temporal no cumple con ninguna de las condiciones de seguridad establecidas.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_10', 
@@ -669,7 +645,7 @@ const INDICATORS_DATA = [
     eval2: 'Los residuos infecciosos son tratados y eliminados dentro de los plazos climáticos de seguridad.', 
     eval1: 'Son tratados entre 24 y 48 horas fuera del estándar ideal térmico.', 
     eval0: 'Son tratados después de 48 horas o no reciben tratamiento seguro.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_11', 
@@ -684,7 +660,7 @@ const INDICATORS_DATA = [
     eval2: 'El almacén temporal de residuos tiene fácil acceso para los camiones recolectores de residuos y para la maniobra de los contenedores.', 
     eval1: 'El almacén temporal de residuos tiene fácil acceso para los camiones recolectores, pero no cuenta con espacio para maniobrar los contenedores.', 
     eval0: 'El almacén temporal de residuos no tiene acceso para los camiones recolectores o espacio para maniobrar los contenedores.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_12', 
@@ -699,7 +675,7 @@ const INDICATORS_DATA = [
     eval2: 'Se cuenta con registro diario del peso de los residuos que ingresan al almacén temporal.', 
     eval1: 'Se cuenta con registro de la cantidad de bolsas de residuos que ingresan al almacén, pero no se registra el peso.', 
     eval0: 'No se cuenta con ningún tipo de registro.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_13', 
@@ -714,13 +690,13 @@ const INDICATORS_DATA = [
     eval2: 'Todos los residuos farmacéuticos son tratados y eliminados con seguridad.', 
     eval1: 'Algunos, pero no todos los residuos farmacéuticos, son eliminados adecuadamente.', 
     eval0: 'Los residuos farmacéuticos no son tratados ni se eliminan con medidas de seguridad.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_14', 
     code: 'RES_14', 
     module: 'Residuos Hospitalarios', 
-    title: 'Tratamiento y disposición final de los residuos peligrosos (cortopunzantes e infecciosos) en el establecimiento', 
+    title: 'Tratamiento y disposición final de los residuos peligrosos (punzocortantes e infecciosos) en el establecimiento', 
     desc: 'Tratamiento Externo.', 
     guidance: 'El tratamiento óptimo incluye autoclave con triturador integrado, microondas con triturador o incineración de doble cámara. La quema a cielo abierto es inaceptable.', 
     jmp: true, 
@@ -729,7 +705,7 @@ const INDICATORS_DATA = [
     eval2: 'Se recolectan y tratan con autoclave con triturador, microondas con triturador o incineración de doble cámara.', 
     eval1: 'Se recolectan y tratan con autoclave sin triturador, microondas sin triturador o incineración de cámara simple.', 
     eval0: 'Quema a cielo abierto, botadero sin tratamiento, enterramiento inseguro o mezcla con residuos comunes.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'RES_15', 
@@ -744,11 +720,11 @@ const INDICATORS_DATA = [
     eval2: 'Todo el personal que maneja residuos tiene EPP adecuado y suficiente en todo momento.', 
     eval1: 'Algunos, pero no todos tienen EPP completo, o existe EPP pero está en mal estado.', 
     eval0: 'No se dispone de EPP en el establecimiento.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
 
   // ==========================================
-  // 🧼 MÓDULO: HIGIENE DE MANOS (H_1 a H_5)
+  // 🧼 MÓDULO: HIGIENE DE MANOS
   // ==========================================
   { 
     id: 'H_1', 
@@ -763,7 +739,7 @@ const INDICATORS_DATA = [
     eval2: 'Todos los puntos de atención tienen puntos para la higiene de las manos que funcionan (con agua y jabón o con un gel hidroalcohólico).', 
     eval1: 'Por lo menos en 75% de los lugares de atención cuentan con puntos para la higiene de las manos en funcionamiento.', 
     eval0: 'En menos de 75% de los lugares de atención cuentan con puntos para la higiene de las manos en funcionamiento.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'H_2', 
@@ -778,7 +754,7 @@ const INDICATORS_DATA = [
     eval2: 'Existen estaciones en buen funcionamiento en todas las áreas.', 
     eval1: 'Existen estaciones que funcionan para la higiene de las manos en algunas áreas pero no en todas.', 
     eval0: 'No existen estaciones para el lavado de las manos.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'H_3', 
@@ -793,7 +769,7 @@ const INDICATORS_DATA = [
     eval2: 'El material está claramente expuesto en todas las salas/zonas de tratamiento.', 
     eval1: 'El material está expuesto en algunas salas/zonas de tratamiento, pero no en todas.', 
     eval0: 'No se dispone de material de promoción de la higiene de manos.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'H_4', 
@@ -808,7 +784,7 @@ const INDICATORS_DATA = [
     eval2: 'Sí, se realizan periódicamente (al menos anualmente) actividades de cumplimiento en todo el establecimiento.', 
     eval1: 'En la política se prevén actividades de cumplimiento, pero no se realizan con ninguna regularidad.', 
     eval0: 'No, no se realiza ninguna actividad de verificación del cumplimiento.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
   { 
     id: 'H_5', 
@@ -821,13 +797,13 @@ const INDICATORS_DATA = [
     score: null, 
     notes: '', 
     eval2: 'Sí se realizan inspecciones periódicas al menos cada tres meses.', 
-    eval1: 'Se realizan inspecciones/auditorías (al menos anualmente) de las distintas salas ó se realizan evaluaciones incompletas.', 
+    eval1: 'Se realizan inspecciones/auditorías (al menos anualmente) de las distintas salas o se realizan evaluaciones incompletas.', 
     eval0: 'No se realizan inspecciones.', 
-    severity: 3, likelihood: 3, problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
+    problemDesc: '', associatedRisks: '', action: '', targetDate: '', resources: '', responsible: '', cost: null, trackingStatus: 'No Iniciado', revisionNotes: '' 
   },
 
   // ==========================================
-  // 🧽 MÓDULO: LIMPIEZA HOSPITALARIA (EC_1 a EC_5)
+  // 🧽 MÓDULO: LIMPIEZA HOSPITALARIA
   // ==========================================
   { 
     id: 'L_1', 
@@ -842,8 +818,6 @@ const INDICATORS_DATA = [
     eval2: 'Sí, existe un protocolo de limpieza, detallado, que se aplica y se le da seguimiento.', 
     eval1: 'Existe un protocolo de limpieza, pero no se aplica ni se le da seguimiento de forma regular.', 
     eval0: 'No existe ningún protocolo de limpieza en la institución.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -860,15 +834,13 @@ const INDICATORS_DATA = [
     module: 'Limpieza Hospitalaria', 
     title: 'Se lleva un registro de limpieza en las áreas de atención a pacientes, salas generales o establecimiento', 
     desc: 'Limpieza Hospitalaria.', 
-    guidance: 'Los registros de firmas de limpieza deben estar visibles en cada pabellón para permitir el control y la auditoría diaria de supervisión técnica conforme a las mejores prácticas de los CDC  <a href="https://www.cdc.gov/healthcare-associated-infections/media/pdfs/es/BestPracAfrica-for-MLS-US-ES-508.pdf" target="_blank" rel="noopener noreferrer" class="text-paho-dark-blue font-bold underline hover:text-paho-hover"> (Centers for Disease Control and Prevention)</a>.', 
+    guidance: 'Los registros de firmas de limpieza deben estar visibles en cada pabellón para permitir el control y la auditoría diaria de supervisión técnica conforme a las mejores prácticas de los CDC (Centers for Disease Control and Prevention).', 
     jmp: false, 
     score: null, 
     notes: '', 
     eval2: 'Sí, hay un registro en cada sala/área o en todo el establecimiento.', 
     eval1: 'Existen registros, pero no para todas las salas, no se firman todos los días o están desactualizados.', 
     eval0: 'No existen registros de limpieza de ninguna índole.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -892,8 +864,6 @@ const INDICATORS_DATA = [
     eval2: 'Los aseos se limpian todos los días y hay un registro firmado visible.', 
     eval1: 'Los aseos se limpian pero menos de una vez al día con o sin registro.', 
     eval0: 'No hay registro y los aseos se limpian menos de una vez al día.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -917,8 +887,6 @@ const INDICATORS_DATA = [
     eval2: 'Sí, se dispone de todo el equipo necesario y en buen estado.', 
     eval1: 'Sí, se dispone de equipo, pero no está en buen estado o no hay en todas las áreas.', 
     eval0: 'No se dispone de ningún tipo de material para limpieza.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -929,12 +897,12 @@ const INDICATORS_DATA = [
     trackingStatus: 'No Iniciado', 
     revisionNotes: '' 
   },
-{ 
+  { 
     id: 'L_5', 
     code: 'L_5', 
     module: 'Limpieza Hospitalaria', 
     title: 'Todo el personal encargado de la limpieza ha recibido formación en la materia', 
-    desc: 'Básico de limpieza ambiental del JMP.', 
+    desc: 'Limpieza Hospitalaria • JMP Servicio Básico de Limpieza.', 
     guidance: 'Aplica a personal de servicios generales y personal clínico con labores mixtas. El programa debe ser conducido por un formador calificado, con inducción inicial y actualización anual.', 
     jmp: true, 
     score: null, 
@@ -942,8 +910,6 @@ const INDICATORS_DATA = [
     eval2: 'Todo el personal encargado de la limpieza ha recibido formación técnica aprobada.', 
     eval1: 'Parte del personal, pero no todo, ha recibido formación.', 
     eval0: 'Ningún miembro del personal de limpieza ha recibido formación.', 
-    severity: 3, 
-    likelihood: 3, 
     problemDesc: '', 
     associatedRisks: '', 
     action: '', 
@@ -960,7 +926,5 @@ const INDICATORS_DATA = [
   correctiveMeasures: '',
   nextReviewDate: '',
   monitoringComments: '',
-  ...ind,
-  severity: null,
-  likelihood: null
+  ...ind
 }));
