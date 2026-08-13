@@ -1,5 +1,51 @@
 const { createApp, ref, computed, onMounted, nextTick } = Vue;
 
+// Función de compresión y redimensionado usando HTML5 Canvas
+const compressImage = (file, maxWidth = 1200, maxHeight = 1200, quality = 0.7) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+
+        // Redimensionar proporcionalmente
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convertir a Base64 JPEG comprimido
+        const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+        resolve(compressedBase64);
+      };
+
+      img.onerror = (error) => reject(error);
+    };
+
+    reader.onerror = (error) => reject(error);
+  });
+};
+
 createApp({
   setup() {
     // Active Navigation state
@@ -17,6 +63,20 @@ createApp({
 
     // Estado reactivo para control de impresión consolidada completa desde Resumen
     const isPrintingAll = ref(false);
+
+    // Estado y funciones para el visor modal (Lightbox) de fotografías
+    const selectedPhoto = ref(null);
+
+    const openPhotoModal = (photo) => {
+      selectedPhoto.value = photo;
+      nextTick(() => {
+        if (window.lucide) window.lucide.createIcons();
+      });
+    };
+
+    const closePhotoModal = () => {
+      selectedPhoto.value = null;
+    };
 
     // Toast Notifications helper state
     const toast = ref({
@@ -205,15 +265,14 @@ createApp({
     };
 
     const jmpCalculatedStatus = computed(() => {
-      // Helper para extraer el puntaje numérico del indicador por su código
       const getScore = (code) => {
         const item = indicators.value.find(i => i.code === code);
         return item && item.score !== null ? Number(item.score) : 0;
       };
 
       // 1. MÓDULO AGUA
-      const a1 = getScore('A_1'); // Abastecimiento mejorado in situ / predio
-      const a3 = getScore('A_3'); // Disponibilidad continua
+      const a1 = getScore('A_1');
+      const a3 = getScore('A_3');
 
       let water = { status: 'Sin Servicio', class: 'bg-red-50 text-red-800 border-red-300' };
       
@@ -224,12 +283,12 @@ createApp({
       }
 
       // 2. MÓDULO SANEAMIENTO
-      const s1 = getScore('S_1'); // Inodoros utilizables para pacientes
-      const s2 = getScore('S_2'); // Cantidad suficiente de inodoros
-      const s4 = getScore('S_4'); // Inodoro reservado para el personal
-      const s5 = getScore('S_5'); // Separados por sexo / unisex privados
-      const s6 = getScore('S_6'); // Gestión de higiene menstrual (GHM)
-      const s7 = getScore('S_7'); // Accesibilidad movilidad reducida
+      const s1 = getScore('S_1');
+      const s2 = getScore('S_2');
+      const s4 = getScore('S_4');
+      const s5 = getScore('S_5');
+      const s6 = getScore('S_6');
+      const s7 = getScore('S_7');
 
       const hasImprovedToilets = (s1 >= 1 || s2 >= 1);
       const meetsAllBasicCriteria = (s1 === 2 || s2 === 2) && 
@@ -249,9 +308,9 @@ createApp({
       }
 
       // 3. MÓDULO HIGIENE DE MANOS
-      const h1 = getScore('H_1'); // Estaciones en puntos de atención clínica
-      const h2 = getScore('H_2'); // Estaciones a <= 5m de inodoros
-      const s3 = getScore('S_3'); // Estaciones en inodoros (módulo saneamiento)
+      const h1 = getScore('H_1');
+      const h2 = getScore('H_2');
+      const s3 = getScore('S_3');
 
       const handCarePoint = (h1 === 2);
       const handToilet = (h2 === 2 || s3 === 2);
@@ -265,9 +324,9 @@ createApp({
       }
 
       // 4. MÓDULO RESIDUOS HOSPITALARIOS
-      const res1 = getScore('RES_1');  // Segregación en 3 contenedores
-      const res2 = getScore('RES_2');  // Segregación etiquetada en origen
-      const res14 = getScore('RES_14'); // Tratamiento y disposición final adecuada
+      const res1 = getScore('RES_1');
+      const res2 = getScore('RES_2');
+      const res14 = getScore('RES_14');
 
       const hasSegregation = (res1 === 2 || res2 === 2);
       const hasTreatment = (res14 === 2);
@@ -281,8 +340,8 @@ createApp({
       }
 
       // 5. MÓDULO LIMPIEZA HOSPITALARIA
-      const l1 = getScore('L_1'); // Protocolos y calendarios de limpieza
-      const l5 = getScore('L_5'); // Capacitación de todo el personal de limpieza
+      const l1 = getScore('L_1');
+      const l5 = getScore('L_5');
 
       let cleaning = { status: 'Sin Servicio', class: 'bg-red-50 text-red-800 border-red-300' };
 
@@ -628,43 +687,12 @@ createApp({
       }
     };
 
-    // =========================================================================
-    // 📸 PROCESAMIENTO Y COMPRESIÓN DE IMÁGENES A BASE64 PARA EXPORTACIÓN JSON
-    // =========================================================================
-    const compressImage = (file, maxWidth = 1024, quality = 0.7) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = () => reject(new Error('Error al leer el archivo'));
-        reader.onload = (event) => {
-          const img = new Image();
-          img.onerror = () => reject(new Error('Error al cargar la imagen'));
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-
-            if (width > maxWidth) {
-              height = Math.round((height * maxWidth) / width);
-              width = maxWidth;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-
-            resolve(canvas.toDataURL('image/jpeg', quality));
-          };
-          img.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
-    };
-
+    // MODIFICADO: Procesa imágenes mediante compresión e intercala string Base64 permanente
     const handleFileChange = async (event) => {
       const files = event.target.files;
       if (!files || files.length === 0) return;
+
+      triggerToast('Procesando y optimizando imágenes...', 'info');
 
       for (const file of Array.from(files)) {
         if (!file.type.startsWith('image/')) {
@@ -673,19 +701,21 @@ createApp({
         }
 
         try {
-          // Comprime la imagen a máximo 1024px de ancho y 70% calidad JPEG
-          const compressedBase64 = await compressImage(file, 1024, 0.7);
+          // Comprime la imagen a máx 1200px (ancho/alto) y calidad 70%
+          const compressedBase64 = await compressImage(file, 1200, 1200, 0.7);
+
+          const cleanName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
 
           generalInfo.value.photos.push({
-            name: file.name,
+            name: `${cleanName}.jpg`,
             url: compressedBase64
           });
-        } catch (err) {
+        } catch (error) {
           triggerToast(`Error al procesar la imagen "${file.name}".`, 'error');
         }
       }
 
-      triggerToast('Evidencia fotográfica optimizada y cargada exitosamente.', 'success');
+      triggerToast('Evidencia fotográfica cargada y optimizada exitosamente.', 'success');
       event.target.value = '';
 
       nextTick(() => {
@@ -693,14 +723,12 @@ createApp({
       });
     };
 
+    // MODIFICADO: Eliminación directa sin necesidad de revocación de Blob
     const removePhoto = (index) => {
       generalInfo.value.photos.splice(index, 1);
       triggerToast('Evidencia fotográfica removida.', 'error');
     };
 
-    // =========================================================================
-    // 💾 EXPORTACIÓN E IMPORTACIÓN DE DATOS (INCLUYE IMÁGENES)
-    // =========================================================================
     const exportData = () => {
       const dataset = {
         generalInfo: generalInfo.value,
@@ -777,7 +805,6 @@ createApp({
       });
     };
 
-    // Ejecución optimizada de impresión de reporte
     const printReport = () => {
       if (activeView.value === 'dashboard') {
         isPrintingAll.value = true;
@@ -859,7 +886,6 @@ createApp({
       }
     });
 
-    // Propiedad computada para la Valoración Total del Establecimiento
     const facilityValuation = computed(() => {
       const pct = overallCompliance.value;
       if (pct > 75) {
@@ -940,7 +966,10 @@ createApp({
       shouldShowIndicator,
       setSanitationSystem,
       facilityValuation,
-      isPrintingAll
+      isPrintingAll,
+      selectedPhoto,
+      openPhotoModal,
+      closePhotoModal
     };
   }
 }).mount('#app');
