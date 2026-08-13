@@ -64,8 +64,7 @@ createApp({
       team: [
         { name: 'Dra. Elena Rostova', role: 'Directora de Epidemiología', institution: 'MINSA', responsibility: 'Coordinador WASH', email: 'elena.rostova@minsa.gob.pe', isEditing: false }
       ],
-      photos: [
-      ]
+      photos: []
     });
 
     const indicators = ref(INDICATORS_DATA);
@@ -591,7 +590,6 @@ createApp({
         }
       }
 
-      // CÓDIGO CORREGIDO
       if (score === 0 || score === 1) {
         if (ind.severity === undefined) ind.severity = null;
         if (ind.likelihood === undefined) ind.likelihood = null;
@@ -630,30 +628,64 @@ createApp({
       }
     };
 
-    const handleFileChange = (event) => {
+    // =========================================================================
+    // 📸 PROCESAMIENTO Y COMPRESIÓN DE IMÁGENES A BASE64 PARA EXPORTACIÓN JSON
+    // =========================================================================
+    const compressImage = (file, maxWidth = 1024, quality = 0.7) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error('Error al leer el archivo'));
+        reader.onload = (event) => {
+          const img = new Image();
+          img.onerror = () => reject(new Error('Error al cargar la imagen'));
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    };
+
+    const handleFileChange = async (event) => {
       const files = event.target.files;
       if (!files || files.length === 0) return;
 
-      Array.from(files).forEach(file => {
+      for (const file of Array.from(files)) {
         if (!file.type.startsWith('image/')) {
           triggerToast(`El archivo "${file.name}" no es una imagen válida.`, 'error');
-          return;
-        }
-        if (file.size > 5 * 1024 * 1024) {
-          triggerToast(`La imagen "${file.name}" supera el límite de 5MB.`, 'error');
-          return;
+          continue;
         }
 
-        const photoObject = {
-          name: file.name,
-          file: file,
-          url: URL.createObjectURL(file)
-        };
+        try {
+          // Comprime la imagen a máximo 1024px de ancho y 70% calidad JPEG
+          const compressedBase64 = await compressImage(file, 1024, 0.7);
 
-        generalInfo.value.photos.push(photoObject);
-      });
+          generalInfo.value.photos.push({
+            name: file.name,
+            url: compressedBase64
+          });
+        } catch (err) {
+          triggerToast(`Error al procesar la imagen "${file.name}".`, 'error');
+        }
+      }
 
-      triggerToast('Evidencia fotográfica cargada exitosamente.', 'success');
+      triggerToast('Evidencia fotográfica optimizada y cargada exitosamente.', 'success');
       event.target.value = '';
 
       nextTick(() => {
@@ -662,14 +694,13 @@ createApp({
     };
 
     const removePhoto = (index) => {
-      const photo = generalInfo.value.photos[index];
-      if (photo && photo.url && photo.url.startsWith('blob:')) {
-        URL.revokeObjectURL(photo.url);
-      }
       generalInfo.value.photos.splice(index, 1);
       triggerToast('Evidencia fotográfica removida.', 'error');
     };
 
+    // =========================================================================
+    // 💾 EXPORTACIÓN E IMPORTACIÓN DE DATOS (INCLUYE IMÁGENES)
+    // =========================================================================
     const exportData = () => {
       const dataset = {
         generalInfo: generalInfo.value,
